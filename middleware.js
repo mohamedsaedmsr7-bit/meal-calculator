@@ -1,15 +1,17 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
 export function middleware(request) {
-  const auth = request.cookies.get('meal_auth')?.value;
-  const isLoginPage = request.nextUrl.pathname === '/login';
+  const cookie = request.cookies.get('meal_auth')
+  const isLogin = request.nextUrl.pathname.startsWith('/login')
+  const isApi = request.nextUrl.pathname.startsWith('/api')
 
-  if (auth === 'ok') return NextResponse.next();
-  if (isLoginPage) return NextResponse.next();
+  if (isLogin || isApi) return NextResponse.next()
+  if (cookie?.value === 'ok') return NextResponse.next()
 
-  return NextResponse.redirect(new URL('/login', request.url));
+  const loginUrl = new URL('/login', request.url)
+  return NextResponse.redirect(loginUrl)
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|api).*)'],
-};
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+}
