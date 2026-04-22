@@ -1,24 +1,7 @@
 "use client";
 import React, { useState, useMemo, useRef, useEffect } from "react";
-
-// ========== التعريفات (Types) ==========
-interface FoodItem {
-  en: string;
-  ar: string;
-  state: string;
-  cal: number;
-}
-
-interface DBType {
-  [key: string]: FoodItem[];
-}
-
-interface AlternativeFood extends FoodItem {
-  needed: number;
-}
-
 // ========== قاعدة البيانات الشاملة (مصر والخليج) ==========
-const DB: DBType = {
+const DB = {
   "🍚 نشويات": [
     { en: "Cooked White Rice",        ar: "أرز أبيض مطبوخ",         state: "مطبوخ",  cal: 130 },
     { en: "Basmati Rice (Long Grain)", ar: "أرز بسمتي مطبوخ",       state: "مطبوخ",  cal: 120 },
@@ -95,16 +78,14 @@ const DB: DBType = {
     { en: "Tahini",                   ar: "طحينة",                   state: "خام",    cal: 595 },
   ],
 };
-
 // ========== ثوابت التصميم ==========
 const C = {
   bg: "#0a0a12", card: "#11111e", cardBorder: "#1e1e35",
   neon: "#c8f135", teal: "#35f1c8", red: "#ff6b6b",
   orange: "#ffaa44", muted: "#4a4a6a", text: "#e8e8f0", subtext: "#7070a0",
 };
-
-const stateTag = (s: string) => {
-  const map: { [key: string]: string } = {
+const stateTag = (s) => {
+  const map = {
     مطبوخ: C.neon, مسلوق: C.neon, مشوي: C.neon,
     نيء: C.red, جاف: C.red, خام: C.red, مقلي: C.red,
     معلب: C.teal, سائل: C.teal, عصير: C.teal,
@@ -113,17 +94,15 @@ const stateTag = (s: string) => {
   };
   return map[s] || C.subtext;
 };
-
-const INPUT_STYLE: React.CSSProperties = {
+const INPUT_STYLE = {
   width: "100%", padding: "12px 14px",
   background: "#ffffff07", border: `1px solid #1e1e35`,
   borderRadius: 12, color: "#e8e8f0",
   fontSize: "0.95rem", fontFamily: "inherit",
   outline: "none", boxSizing: "border-box", direction: "rtl",
 };
-
 // ========== المكونات الفرعية ==========
-function StepLabel({ num, text, color }: { num: string; text: string; color?: string }) {
+function StepLabel({ num, text, color }) {
   const col = color || C.neon;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
@@ -138,26 +117,13 @@ function StepLabel({ num, text, color }: { num: string; text: string; color?: st
     </div>
   );
 }
-
-interface FoodSelectorProps {
-  label: string;
-  stepNum: string;
-  catFoods: FoodItem[];
-  selected: FoodItem | null;
-  onSelect: (f: FoodItem) => void;
-  search: string;
-  onSearch: (s: string) => void;
-  stepColor?: string;
-}
-
-function FoodSelector({ label, stepNum, catFoods, selected, onSelect, search, onSearch, stepColor }: FoodSelectorProps) {
+function FoodSelector({ label, stepNum, catFoods, selected, onSelect, search, onSearch, stepColor }) {
   const col = stepColor || C.neon;
   const filtered = useMemo(() => {
     if (!search.trim()) return catFoods;
     const q = search.toLowerCase();
     return catFoods.filter(f => f.ar.includes(search) || f.en.toLowerCase().includes(q));
   }, [search, catFoods]);
-
   return (
     <div>
       <StepLabel num={stepNum} text={label} color={col} />
@@ -197,8 +163,7 @@ function FoodSelector({ label, stepNum, catFoods, selected, onSelect, search, on
     </div>
   );
 }
-
-function AlternativeRow({ alt }: { alt: AlternativeFood }) {
+function AlternativeRow({ alt }) {
   const pct = Math.min(100, Math.round((alt.needed / 500) * 100));
   return (
     <div style={{ background: "#ffffff05", border: `1px solid ${C.cardBorder}`, borderRadius: 14, padding: "12px 16px" }}>
@@ -222,20 +187,17 @@ function AlternativeRow({ alt }: { alt: AlternativeFood }) {
     </div>
   );
 }
-
-function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: () => void; showRemove: boolean }) {
-  const [mode, setMode]         = useState<"all" | "specific">("all");
+function MealCard({ index, onRemove, showRemove }) {
+  const [mode, setMode]         = useState("all");
   const [cat, setCat]           = useState(Object.keys(DB)[0]);
-  const [food, setFood]         = useState<FoodItem>(DB[Object.keys(DB)[0]][0]);
+  const [food, setFood]         = useState(DB[Object.keys(DB)[0]][0]);
   const [grams, setGrams]       = useState("");
   const [search, setSearch]     = useState("");
-  const [targetFood, setTargetFood] = useState<FoodItem | null>(null);
+  const [targetFood, setTargetFood] = useState(null);
   const [searchB, setSearchB]   = useState("");
-  const gramsRef = useRef<HTMLInputElement>(null);
-
+  const gramsRef = useRef(null);
   const catFoods = DB[cat];
-
-  const handleCatChange = (c: string) => {
+  const handleCatChange = (c) => {
     setCat(c); 
     setFood(DB[c][0]); 
     setTargetFood(null);
@@ -243,12 +205,10 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
     setSearchB(""); 
     setGrams("");
   };
-
   const totalCals = useMemo(() => {
     const g = parseFloat(grams);
     return (!g || g <= 0) ? 0 : (food.cal * g) / 100;
   }, [food, grams]);
-
   const alternatives = useMemo(() => {
     if (!totalCals) return [];
     return catFoods
@@ -256,12 +216,10 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
       .map(f => ({ ...f, needed: Math.round((totalCals / f.cal) * 100) }))
       .sort((a, b) => a.needed - b.needed);
   }, [totalCals, catFoods, food]);
-
   const specificResult = useMemo(() => {
     if (!totalCals || !targetFood) return null;
     return Math.round((totalCals / targetFood.cal) * 100);
   }, [totalCals, targetFood]);
-
   return (
     <div style={{
       background: C.card, border: `1px solid ${C.cardBorder}`,
@@ -276,15 +234,13 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
           cursor: "pointer", fontSize: 13, fontFamily: "inherit",
         }}>✕</button>
       )}
-
       <div style={{
         textAlign: "center", marginBottom: "1.2rem",
         fontSize: "0.75rem", letterSpacing: "0.2em",
         color: C.neon, fontWeight: 700, opacity: 0.7, textTransform: "uppercase",
       }}>◈ وجبة {index + 1}</div>
-
       <div style={{ display: "flex", gap: 8, marginBottom: "1.4rem", background: "#ffffff06", borderRadius: 14, padding: 5 }}>
-        {(["all", "specific"] as const).map(m => (
+        {(["all", "specific"]).map(m => (
           <button key={m} onClick={() => setMode(m)} style={{
             flex: 1, padding: "10px 8px", borderRadius: 10,
             border: `1px solid ${mode === m ? C.neon + "55" : "transparent"}`,
@@ -298,7 +254,6 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
           </button>
         ))}
       </div>
-
       <StepLabel num="1" text="اختر الفئة الغذائية" />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: "1.4rem" }}>
         {Object.keys(DB).map(c => (
@@ -312,7 +267,6 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
           }}>{c}</button>
         ))}
       </div>
-
       {mode === "all" ? (
         <>
           <FoodSelector
@@ -327,7 +281,6 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
               onChange={e => setGrams(e.target.value)} placeholder="مثال: 150" style={INPUT_STYLE} />
             <span style={{ position: "absolute", top: "50%", left: 14, transform: "translateY(-50%)", color: C.subtext, fontSize: "0.8rem" }}>جرام</span>
           </div>
-
           {totalCals > 0 && (
             <>
               <div style={{
@@ -374,9 +327,7 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
               <span style={{ position: "absolute", top: "50%", left: 14, transform: "translateY(-50%)", color: C.subtext, fontSize: "0.8rem" }}>جرام</span>
             </div>
           </div>
-
           <div style={{ textAlign: "center", margin: "10px 0", fontSize: "1.5rem", color: C.teal }}>⇅</div>
-
           <div style={{ background: `${C.teal}05`, border: `1px solid ${C.teal}22`, borderRadius: 16, padding: "14px", marginBottom: 15 }}>
             <div style={{ color: C.teal, fontSize: "0.75rem", fontWeight: 800, marginBottom: 10 }}>🅑 الصنف البديل</div>
             <FoodSelector
@@ -386,7 +337,6 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
               search={searchB} onSearch={setSearchB} stepColor={C.teal}
             />
           </div>
-
           {totalCals > 0 && targetFood && (
             <div style={{
               background: `linear-gradient(135deg, ${C.teal}20, ${C.neon}10)`,
@@ -414,20 +364,17 @@ function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: ()
     </div>
   );
 }
-
 // ========== التطبيق الرئيسي ==========
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [meals, setMeals] = useState([{ id: 1 }]);
-
   useEffect(() => {
     const auth = localStorage.getItem("is_auth_2025");
     if (auth === "true") setIsAuthenticated(true);
   }, []);
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     if (password === "2025") {
       setIsAuthenticated(true);
@@ -437,12 +384,10 @@ export default function App() {
       setTimeout(() => setError(false), 2000);
     }
   };
-
   const handleLogout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem("is_auth_2025");
   };
-
   if (!isAuthenticated) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: C.bg, direction: "rtl" }}>
@@ -459,7 +404,6 @@ export default function App() {
       </div>
     );
   }
-
   return (
     <div style={{ minHeight: "100vh", background: C.bg, fontFamily: "'Cairo', sans-serif", direction: "rtl", color: C.text }}>
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, background: `radial-gradient(ellipse 60% 40% at 80% 10%, ${C.neon}05 0%, transparent 60%), radial-gradient(ellipse 50% 50% at 10% 80%, ${C.teal}04 0%, transparent 60%)` }} />
@@ -471,23 +415,19 @@ export default function App() {
           <h1 style={{ margin: "0 0 10px", fontSize: "2.2rem", fontWeight: 900, lineHeight: 1.1 }}>حاسبة البدائل <span style={{ color: C.neon }}>الذكية</span></h1>
           <p style={{ color: C.subtext, margin: 0, fontSize: "0.9rem", lineHeight: 1.6 }}>استبدل أكلاتك المفضلة بنفس السعرات بدقة متناهية</p>
         </header>
-
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {meals.map((m, i) => (
             <MealCard key={m.id} index={i} showRemove={meals.length > 1} onRemove={() => setMeals(prev => prev.filter(x => x.id !== m.id))} />
           ))}
         </div>
-
         {meals.length < 5 && (
           <button onClick={() => setMeals(prev => [...prev, { id: Date.now() }])} style={{ width: "100%", marginTop: 20, padding: "16px", background: "transparent", border: `2px dashed ${C.neon}33`, borderRadius: 20, color: C.neon, cursor: "pointer", fontFamily: "inherit", fontSize: "0.95rem", fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>＋ إضافة وجبة أخرى</button>
         )}
-
         <footer style={{ textAlign: "center", marginTop: 40, color: C.muted, fontSize: "0.75rem", padding: "0 20px" }}>
           الحسابات مبنية على متوسط السعرات الحرارية لكل 100 جرام<br />
           <div style={{ color: `${C.neon}66`, marginTop: 8, fontWeight: 700 }}>◈ 2025 Smart Calculator ◈</div>
         </footer>
       </div>
-
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
