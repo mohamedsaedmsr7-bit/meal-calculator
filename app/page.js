@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useMemo, useRef, useEffect } from "react";
 
-// ========== Types ==========
+// ========== التعريفات (Types) ==========
 interface FoodItem {
   en: string;
   ar: string;
@@ -11,6 +11,10 @@ interface FoodItem {
 
 interface DBType {
   [key: string]: FoodItem[];
+}
+
+interface AlternativeFood extends FoodItem {
+  needed: number;
 }
 
 // ========== قاعدة البيانات الشاملة (مصر والخليج) ==========
@@ -118,13 +122,8 @@ const INPUT_STYLE: React.CSSProperties = {
   outline: "none", boxSizing: "border-box", direction: "rtl",
 };
 
-interface StepLabelProps {
-  num: string;
-  text: string;
-  color?: string;
-}
-
-function StepLabel({ num, text, color }: StepLabelProps) {
+// ========== المكونات الفرعية ==========
+function StepLabel({ num, text, color }: { num: string; text: string; color?: string }) {
   const col = color || C.neon;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
@@ -199,10 +198,6 @@ function FoodSelector({ label, stepNum, catFoods, selected, onSelect, search, on
   );
 }
 
-interface AlternativeFood extends FoodItem {
-  needed: number;
-}
-
 function AlternativeRow({ alt }: { alt: AlternativeFood }) {
   const pct = Math.min(100, Math.round((alt.needed / 500) * 100));
   return (
@@ -228,13 +223,7 @@ function AlternativeRow({ alt }: { alt: AlternativeFood }) {
   );
 }
 
-interface MealCardProps {
-  index: number;
-  onRemove: () => void;
-  showRemove: boolean;
-}
-
-function MealCard({ index, onRemove, showRemove }: MealCardProps) {
+function MealCard({ index, onRemove, showRemove }: { index: number; onRemove: () => void; showRemove: boolean }) {
   const [mode, setMode]         = useState<"all" | "specific">("all");
   const [cat, setCat]           = useState(Object.keys(DB)[0]);
   const [food, setFood]         = useState<FoodItem>(DB[Object.keys(DB)[0]][0]);
@@ -295,18 +284,17 @@ function MealCard({ index, onRemove, showRemove }: MealCardProps) {
       }}>◈ وجبة {index + 1}</div>
 
       <div style={{ display: "flex", gap: 8, marginBottom: "1.4rem", background: "#ffffff06", borderRadius: 14, padding: 5 }}>
-        {[
-          { key: "all",      icon: "📋", label: "كل البدائل" },
-          { key: "specific", icon: "🎯", label: "بديل محدد" },
-        ].map(m => (
-          <button key={m.key} onClick={() => setMode(m.key as "all" | "specific")} style={{
+        {(["all", "specific"] as const).map(m => (
+          <button key={m} onClick={() => setMode(m)} style={{
             flex: 1, padding: "10px 8px", borderRadius: 10,
-            border: `1px solid ${mode === m.key ? C.neon + "55" : "transparent"}`,
-            background: mode === m.key ? `${C.neon}12` : "transparent",
-            color: mode === m.key ? C.neon : C.subtext,
+            border: `1px solid ${mode === m ? C.neon + "55" : "transparent"}`,
+            background: mode === m ? `${C.neon}12` : "transparent",
+            color: mode === m ? C.neon : C.subtext,
             cursor: "pointer", fontFamily: "inherit", transition: "all 0.18s",
           }}>
-            <div style={{ fontSize: "0.85rem", fontWeight: mode === m.key ? 700 : 400 }}>{m.icon} {m.label}</div>
+            <div style={{ fontSize: "0.85rem", fontWeight: mode === m ? 700 : 400 }}>
+              {m === "all" ? "📋 كل البدائل" : "🎯 بديل محدد"}
+            </div>
           </button>
         ))}
       </div>
@@ -427,72 +415,11 @@ function MealCard({ index, onRemove, showRemove }: MealCardProps) {
   );
 }
 
-// ========== شاشة تسجيل الدخول ==========
-interface LoginScreenProps {
-  onLogin: () => void;
-}
-
-function LoginScreen({ onLogin }: LoginScreenProps) {
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === "2025") {
-      onLogin();
-    } else {
-      setError(true);
-      setTimeout(() => setError(false), 2000);
-    }
-  };
-
-  return (
-    <div style={{
-      minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      padding: 20, background: C.bg, direction: "rtl",
-    }}>
-      <div style={{
-        width: "100%", maxWidth: 400, padding: "2.5rem 2rem",
-        background: C.card, borderRadius: 30, border: `1px solid ${C.cardBorder}`,
-        boxShadow: "0 20px 50px #000000", textAlign: "center",
-      }}>
-        <div style={{
-          width: 70, height: 70, background: `${C.neon}12`, borderRadius: 20,
-          margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center",
-          border: `1px solid ${C.neon}33`, color: C.neon, fontSize: 32,
-        }}>⚡</div>
-        <h2 style={{ margin: "0 0 10px", fontSize: "1.6rem", fontWeight: 900 }}>تسجيل الدخول</h2>
-        <p style={{ color: C.subtext, fontSize: "0.9rem", marginBottom: 30 }}>يرجى إدخال كلمة المرور الموحدة للدخول</p>
-
-        <form onSubmit={handleSubmit}>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="كلمة المرور"
-            style={{
-              ...INPUT_STYLE, textAlign: "center", fontSize: "1.2rem", letterSpacing: 5,
-              border: `1px solid ${error ? C.red : C.cardBorder}`,
-              background: error ? `${C.red}05` : "#ffffff07",
-            }}
-            autoFocus
-          />
-          {error && <div style={{ color: C.red, fontSize: "0.8rem", marginTop: 8, fontWeight: 700 }}>كلمة المرور غير صحيحة!</div>}
-          <button type="submit" style={{
-            width: "100%", marginTop: 24, padding: "14px",
-            background: C.neon, color: C.bg, border: "none",
-            borderRadius: 16, fontSize: "1rem", fontWeight: 900,
-            cursor: "pointer", boxShadow: `0 8px 20px ${C.neon}33`,
-            transition: "all 0.2s",
-          }}>دخول</button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
+// ========== التطبيق الرئيسي ==========
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   const [meals, setMeals] = useState([{ id: 1 }]);
 
   useEffect(() => {
@@ -500,9 +427,15 @@ export default function App() {
     if (auth === "true") setIsAuthenticated(true);
   }, []);
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-    localStorage.setItem("is_auth_2025", "true");
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "2025") {
+      setIsAuthenticated(true);
+      localStorage.setItem("is_auth_2025", "true");
+    } else {
+      setError(true);
+      setTimeout(() => setError(false), 2000);
+    }
   };
 
   const handleLogout = () => {
@@ -510,56 +443,43 @@ export default function App() {
     localStorage.removeItem("is_auth_2025");
   };
 
-  if (!isAuthenticated) return <LoginScreen onLogin={handleLogin} />;
+  if (!isAuthenticated) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: C.bg, direction: "rtl" }}>
+        <div style={{ width: "100%", maxWidth: 400, padding: "2.5rem 2rem", background: C.card, borderRadius: 30, border: `1px solid ${C.cardBorder}`, boxShadow: "0 20px 50px #000000", textAlign: "center" }}>
+          <div style={{ width: 70, height: 70, background: `${C.neon}12`, borderRadius: 20, margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${C.neon}33`, color: C.neon, fontSize: 32 }}>⚡</div>
+          <h2 style={{ margin: "0 0 10px", fontSize: "1.6rem", fontWeight: 900, color: C.text }}>تسجيل الدخول</h2>
+          <p style={{ color: C.subtext, fontSize: "0.9rem", marginBottom: 30 }}>أدخل كلمة المرور الموحدة</p>
+          <form onSubmit={handleLogin}>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="كلمة المرور" style={{ ...INPUT_STYLE, textAlign: "center", fontSize: "1.2rem", letterSpacing: 5, border: `1px solid ${error ? C.red : C.cardBorder}`, background: error ? `${C.red}05` : "#ffffff07" }} autoFocus />
+            {error && <div style={{ color: C.red, fontSize: "0.8rem", marginTop: 8, fontWeight: 700 }}>كلمة المرور غير صحيحة!</div>}
+            <button type="submit" style={{ width: "100%", marginTop: 24, padding: "14px", background: C.neon, color: C.bg, border: "none", borderRadius: 16, fontSize: "1rem", fontWeight: 900, cursor: "pointer", boxShadow: `0 8px 20px ${C.neon}33` }}>دخول</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg, fontFamily: "'Cairo', sans-serif", direction: "rtl", color: C.text }}>
-      <div style={{
-        position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
-        background: `radial-gradient(ellipse 60% 40% at 80% 10%, ${C.neon}05 0%, transparent 60%),
-                     radial-gradient(ellipse 50% 50% at 10% 80%, ${C.teal}04 0%, transparent 60%)`,
-      }} />
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, background: `radial-gradient(ellipse 60% 40% at 80% 10%, ${C.neon}05 0%, transparent 60%), radial-gradient(ellipse 50% 50% at 10% 80%, ${C.teal}04 0%, transparent 60%)` }} />
       
       <div style={{ maxWidth: 540, margin: "0 auto", padding: "0 16px 100px", position: "relative", zIndex: 1 }}>
-
         <header style={{ textAlign: "center", padding: "3rem 0 2rem", position: "relative" }}>
-          <button onClick={handleLogout} style={{
-            position: "absolute", top: 20, left: 0, background: "transparent",
-            border: `1px solid ${C.subtext}33`, color: C.subtext, padding: "4px 10px",
-            borderRadius: 8, fontSize: "0.7rem", cursor: "pointer",
-          }}>تسجيل خروج</button>
-
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            background: `${C.neon}12`, border: `1px solid ${C.neon}33`,
-            color: C.neon, padding: "6px 16px", borderRadius: 25,
-            fontSize: "0.7rem", letterSpacing: "0.15em", fontWeight: 800, marginBottom: 15,
-          }}>⚡ SMART NUTRITION V2.5</div>
-          <h1 style={{ margin: "0 0 10px", fontSize: "2.2rem", fontWeight: 900, lineHeight: 1.1 }}>
-            حاسبة البدائل <span style={{ color: C.neon }}>الذكية</span>
-          </h1>
-          <p style={{ color: C.subtext, margin: 0, fontSize: "0.9rem", lineHeight: 1.6 }}>
-            استبدل أكلاتك المفضلة بنفس السعرات بدقة متناهية
-          </p>
+          <button onClick={handleLogout} style={{ position: "absolute", top: 20, left: 0, background: "transparent", border: `1px solid ${C.subtext}33`, color: C.subtext, padding: "4px 10px", borderRadius: 8, fontSize: "0.7rem", cursor: "pointer" }}>خروج</button>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `${C.neon}12`, border: `1px solid ${C.neon}33`, color: C.neon, padding: "6px 16px", borderRadius: 25, fontSize: "0.7rem", letterSpacing: "0.15em", fontWeight: 800, marginBottom: 15 }}>⚡ SMART NUTRITION V2.5</div>
+          <h1 style={{ margin: "0 0 10px", fontSize: "2.2rem", fontWeight: 900, lineHeight: 1.1 }}>حاسبة البدائل <span style={{ color: C.neon }}>الذكية</span></h1>
+          <p style={{ color: C.subtext, margin: 0, fontSize: "0.9rem", lineHeight: 1.6 }}>استبدل أكلاتك المفضلة بنفس السعرات بدقة متناهية</p>
         </header>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {meals.map((m, i) => (
-            <MealCard key={m.id} index={i}
-              showRemove={meals.length > 1}
-              onRemove={() => setMeals(prev => prev.filter(x => x.id !== m.id))}
-            />
+            <MealCard key={m.id} index={i} showRemove={meals.length > 1} onRemove={() => setMeals(prev => prev.filter(x => x.id !== m.id))} />
           ))}
         </div>
 
         {meals.length < 5 && (
-          <button onClick={() => setMeals(prev => [...prev, { id: Date.now() }])} style={{
-            width: "100%", marginTop: 20, padding: "16px",
-            background: "transparent", border: `2px dashed ${C.neon}33`,
-            borderRadius: 20, color: C.neon, cursor: "pointer",
-            fontFamily: "inherit", fontSize: "0.95rem", fontWeight: 800,
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
-          }}>＋ إضافة وجبة أخرى</button>
+          <button onClick={() => setMeals(prev => [...prev, { id: Date.now() }])} style={{ width: "100%", marginTop: 20, padding: "16px", background: "transparent", border: `2px dashed ${C.neon}33`, borderRadius: 20, color: C.neon, cursor: "pointer", fontFamily: "inherit", fontSize: "0.95rem", fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>＋ إضافة وجبة أخرى</button>
         )}
 
         <footer style={{ textAlign: "center", marginTop: 40, color: C.muted, fontSize: "0.75rem", padding: "0 20px" }}>
