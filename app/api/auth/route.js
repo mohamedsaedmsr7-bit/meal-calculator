@@ -10,7 +10,7 @@ export async function POST(request) {
   const response = NextResponse.json({ ok: true });
   response.cookies.set("meal_auth", "ok", {
     httpOnly: true,
-    secure: true,
+    secure: false,,
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7,
     path: "/",
