@@ -1,151 +1,7 @@
 "use client";
 import React, { useState, useMemo, useRef, useEffect } from "react";
-// ========== قاعدة البيانات الشاملة (مصر والخليج) ==========
-const DB = {
-  "🍚 نشويات": [
-    { en: "Cooked White Rice",        ar: "أرز أبيض مطبوخ",         state: "مطبوخ",  cal: 130 },
-    { en: "Basmati Rice (Long Grain)", ar: "أرز بسمتي مطبوخ",       state: "مطبوخ",  cal: 120 },
-    { en: "Rice with Vermicelli",     ar: "أرز بالشعيرية",          state: "مطبوخ",  cal: 150 },
-    { en: "Raw White Rice",           ar: "أرز أبيض (نيء)",          state: "نيء",    cal: 360 },
-    { en: "Cooked Brown Rice",        ar: "أرز بني مطبوخ",           state: "مطبوخ",  cal: 112 },
-    { en: "Boiled White Pasta",       ar: "مكرونة بيضاء مسلوقة",     state: "مسلوق",  cal: 130 },
-    { en: "Bechamel Macaroni",        ar: "مكرونة بالبشاميل",        state: "مطبوخ",  cal: 180 },
-    { en: "Baladi Bread (Egypt)",     ar: "خبز بلدي (ردة)",          state: "جاهز",   cal: 280 },
-    { en: "Tamees Bread",             ar: "خبز تميس",                state: "جاهز",   cal: 290 },
-    { en: "Samoon Bread",             ar: "خبز صمون",                state: "جاهز",   cal: 300 },
-    { en: "Saj / Marqouq Bread",      ar: "خبز صاج / مرقوق",        state: "جاهز",   cal: 270 },
-    { en: "Fino Bread",               ar: "خبز فينو",                state: "جاهز",   cal: 310 },
-    { en: "Oat Bread",                ar: "خبز شوفان",               state: "جاهز",   cal: 240 },
-    { en: "White Toast",              ar: "توست أبيض",               state: "جاهز",   cal: 265 },
-    { en: "Raw Oats",                 ar: "شوفان (خام)",             state: "نيء",    cal: 389 },
-    { en: "Boiled Corn",              ar: "ذرة مسلوقة",              state: "مسلوق",  cal: 96  },
-    { en: "Boiled Potatoes",          ar: "بطاطس مسلوقة",            state: "مسلوق",  cal: 87  },
-    { en: "Fried Potatoes (Fries)",   ar: "بطاطس مقلية",             state: "مقلي",   cal: 312 },
-    { en: "Baked Sweet Potato",       ar: "بطاطا حلوة مشوية",        state: "مشوي",   cal: 105 },
-    { en: "Freekeh (Cooked)",         ar: "فريك مطبوخ",              state: "مطبوخ",  cal: 125 },
-    { en: "Jareesh (Cooked)",         ar: "جريش مطبوخ",              state: "مطبوخ",  cal: 140 },
-    { en: "Rice with Vermicelli", ar: "أرز بالشعيرية", state: "مطبوخ", cal: 150 },
-    { en: "Cooked Brown Rice", ar: "أرز بني مطبوخ", state: "مطبوخ", cal: 112 },
-    { en: "Whole Wheat Pasta", ar: "مكرونة بني (قمح كامل)", state: "مسلوق", cal: 124 },
-    { en: "Baked Sweet Potato", ar: "بطاطا حلوة مشوية", state: "مشوي", cal: 105 },
-    { en: "Cooked Quinoa", ar: "كينوا مطبوخة", state: "مطبوخ", cal: 120 },
-    { en: "Cooked Couscous", ar: "كسكسي (سادة)", state: "مطبوخ", cal: 112 },
+import { DB } from "./foods";
 
-
-// --- وجبات شرقية جاهزة (كارب أساسي) ---
-    { en: "Mixed Mahshi (Rice stuffing)", ar: "محشي مشكل (كرنب/ورق عنب)", state: "جاهز", cal: 170 },
-    { en: "Egyptian Koshary", ar: "كشري مصري (بدون إضافات)", state: "جاهز", cal: 165 },
-    { en: "Chicken Kabsa Rice", ar: "أرز الكبسة (بدون الدجاج)", state: "جاهز", cal: 185 },
-    { en: "Mandi Rice", ar: "أرز مندي (بدون اللحم)", state: "جاهز", cal: 190 },
-    { en: "Bechamel Macaroni", ar: "مكرونة بالبشاميل", state: "جاهز", cal: 180 },
-    { en: "Egyptian Roaa (Meat)", ar: "رقاق باللحمة المفرومة", state: "جاهز", cal: 285 },
-    { en: "Meat Goulash", ar: "جلاش باللحمة المفرومة", state: "جاهز", cal: 310 },
-    { en: "Fatteh Rice (No Meat)", ar: "أرز فتة (بالخل والثوم)", state: "جاهز", cal: 160 }
-
-// --- خبز ومعجنات ---
-    { en: "Baladi Bread (Egypt)", ar: "خبز بلدي (ردة)", state: "جاهز", cal: 280 },
-    { en: "Tamees Bread", ar: "خبز تميس", state: "جاهز", cal: 290 },
-    { en: "Samoon Bread", ar: "خبز صمون", state: "جاهز", cal: 300 },
-    { en: "Saj / Marqouq Bread", ar: "خبز صاج / مرقوق", state: "جاهز", cal: 270 },
-    { en: "Brown Toast", ar: "توست بني", state: "جاهز", cal: 245 },
-    { en: "English Muffin", ar: "مافن إنجليزي", state: "جاهز", cal: 235 }
-
-  ],
-  "🍗 بروتين": [
- 
-    // --- اللحوم والمفروم (Beef & Minced) ---
-    { en: "Lean Minced Beef (No Fat)", ar: "لحمة مفرومة حمراء (بدون دهن)", state: "نيء", cal: 120 },
-    { en: "Minced Beef (5% Fat)", ar: "لحمة مفرومة 5% دهون", state: "نيء", cal: 137 },
-    { en: "Minced Beef (10% Fat)", ar: "لحمة مفرومة 10% دهون", state: "نيء", cal: 176 },
-    
-    // الأصناف المطبوخة (بعد فقدان السوائل يتركز الوزن والسعرات)
-    { en: "Grilled Lean Minced", ar: "مفروم أحمر مشوي", state: "مشوي", cal: 190 },
-    { en: "Grilled Minced (5% Fat)", ar: "مفروم 5% دهون مشوي", state: "مشوي", cal: 210 },
-    { en: "Grilled Minced (10% Fat)", ar: "مفروم 10% دهون مشوي", state: "مشوي", cal: 235 },
-    
-    // --- باقي أصناف البروتين ---
-    { en: "Grilled Chicken Breast", ar: "صدور دجاج مشوية", state: "مشوي", cal: 165 },
-    { en: "Fried Chicken (Pané)", ar: "دجاج بانيه", state: "مقلي", cal: 280 },
-    { en: "Cooked Chicken Thigh", ar: "أوراك دجاج مطبوخة", state: "مطبوخ", cal: 209 },
-    { en: "Shish Taouk", ar: "شيش طاووق", state: "مشوي", cal: 175 },
-    { en: "Chicken Shawarma", ar: "شاورما دجاج (لحم فقط)", state: "جاهز", cal: 220 },
-    { en: "Meat Shawarma", ar: "شاورما لحم (لحم فقط)", state: "جاهز", cal: 280 },
-    { en: "Grilled Kofta", ar: "كفتة مشوية", state: "مشوي", cal: 300 },
-    { en: "Cooked Lean Beef", ar: "لحم بقري صافي", state: "مطبوخ", cal: 250 },
-    { en: "Hashi Meat (Camel)", ar: "لحم حاشي (جمل)", state: "مطبوخ", cal: 190 },
-    { en: "Lamb Chops (Rayash)", ar: "ريش غنم", state: "مشوي", cal: 320 },
-    { en: "Cooked Beef Liver", ar: "كبدة بقري", state: "مطبوخ", cal: 175 },
-    { en: "Boiled Eggs", ar: "بيض مسلوق", state: "مسلوق", cal: 155 },
-    { en: "Omelette (Oil/Butter)", ar: "أومليت (بالزيت/الزبدة)", state: "مقلي", cal: 190 },
-    { en: "Grilled Tilapia Fish", ar: "سمك بلطي مشوي", state: "مشوي", cal: 128 },
-    { en: "Fried Tilapia Fish", ar: "سمك بلطي مقلي", state: "مقلي", cal: 220 },
-    { en: "Grilled Hamour Fish", ar: "سمك هامور مشوي", state: "مشوي", cal: 100 },
-    { en: "Grilled Salmon", ar: "سلمون مشوي", state: "مشوي", cal: 208 },
-    { en: "Boiled Shrimp", ar: "جمبري مسلوق", state: "مسلوق", cal: 99 },
-    { en: "Fried Shrimp", ar: "جمبري مقلي", state: "مقلي", cal: 250 },
-    { en: "Canned Tuna (Water)", ar: "تونة معلبة (ماء)", state: "معلب", cal: 116 },
-    { en: "Canned Tuna (Oil)", ar: "تونة معلبة (زيت - مصفاة)", state: "معلب", cal: 190 }
-  ],
-  ],
-  "🫘 بقوليات": [
-    { en: "Cooked Fava Beans", ar: "فول مدمس", state: "مطبوخ", cal: 110 },
-    { en: "Foul with Oil", ar: "فول بالزيت", state: "مطبوخ", cal: 160 },
-    { en: "Falafel / Ta'ameya", ar: "فلافل / طعمية", state: "مقلي", cal: 333 },
-    { en: "Cooked Lentils", ar: "عدس مطبوخ", state: "مطبوخ", cal: 116 },
-    { en: "Yellow Lentil Soup", ar: "شوربة عدس", state: "جاهز", cal: 90 },
-    { en: "Cooked Chickpeas", ar: "حمص مسلوق", state: "مطبوخ", cal: 164 },
-    { en: "Hummus (Spread)", ar: "مسبحة / حمص بطحينة", state: "جاهز", cal: 166 },
-    { en: "Cooked Lupini Beans", ar: "ترمس مسلوق", state: "مطبوخ", cal: 119 },
-    { en: "Lentils & Rice (Mujadara)", ar: "مجدرة (أرز وعدس)", state: "جاهز", cal: 170 },
-    { en: "Green Peas (Cooked)", ar: "بسلة مطبوخة", state: "مطبوخ", cal: 85 }
-
-  ],
-
-
-  "🥛 ألبان وأجبان": [
-    { en: "Labneh (Middle East)",     ar: "لبنة",                    state: "طازج",   cal: 150 },
-    { en: "Cottage Cheese", ar: "جبنة قريش", state: "قليل الدسم", cal: 98 },
-    { en: "Labneh (Full Fat)", ar: "لبنة كاملة الدسم", state: "طازج", cal: 150 },
-    { en: "Full Fat Milk", ar: "حليب كامل الدسم", state: "سائل", cal: 61 },
-    { en: "Low Fat Milk", ar: "حليب قليل الدسم", state: "سائل", cal: 42 },
-    { en: "Rayeb Milk", ar: "لبن رائب", state: "سائل", cal: 60 },
-    { en: "Greek Yogurt", ar: "زبادي يوناني", state: "عادي", cal: 97 },
-    { en: "Plain Yogurt", ar: "زبادي عادي", state: "عادي", cal: 63 },
-    { en: "Feta Cheese (Full Fat)", ar: "جبنة فيتا كامل الدسم", state: "عادي", cal: 264 },
-    { en: "Feta Cheese (Light)", ar: "جبنة فيتا لايت", state: "لايت", cal: 170 },
-    { en: "Roumy Cheese", ar: "جبنة رومي", state: "عادي", cal: 350 },
-    { en: "Cheddar Cheese", ar: "جبنة شيدر", state: "عادي", cal: 400 },
-    { en: "Mozzarella Cheese", ar: "جبنة موتزاريلّا", state: "عادي", cal: 280 },
-    { en: "Halloumi Cheese", ar: "جبنة حلوم", state: "طازج", cal: 320 },
-    { en: "Mish (Egyptian Cheese)", ar: "مش مصري", state: "جاهز", cal: 220 },
-    { en: "Akkawi Cheese", ar: "جبنة عكاوي", state: "طازج", cal: 280 }
-  ],
-  "🍎 فواكه": [
-    { en: "Apple", ar: "تفاح", state: "طازج", cal: 52 },
-    { en: "Banana", ar: "موز", state: "طازج", cal: 96 },
-    { en: "Dates (Khalas/Sukkari)", ar: "تمر (خلاص/سكري)", state: "طازج", cal: 280 },
-    { en: "Orange", ar: "برتقال", state: "طازج", cal: 47 },
-    { en: "Mango", ar: "مانجو", state: "طازج", cal: 60 },
-    { en: "Grapes", ar: "عنب", state: "طازج", cal: 69 },
-    { en: "Watermelon", ar: "بطيخ", state: "طازج", cal: 30 },
-    { en: "Guava", ar: "جوافة", state: "طازج", cal: 68 },
-    { en: "Peach", ar: "خوخ", state: "طازج", cal: 39 },
-    { en: "Prickly Pear", ar: "تين شوكي", state: "طازج", cal: 41 },
-    { en: "Strawberries", ar: "فراولة", state: "طازج", cal: 32 },
-    { en: "Melon / Cantaloupe", ar: "شمام / كانتلوب", state: "طازج", cal: 34 }
-  ],
-  "🧈 دهون وزيوت": [
-    "🧈 دهون وزيوت": [
-    { en: "Olive Oil", ar: "زيت زيتون", state: "خام", cal: 884 },
-    { en: "Corn / Sunflower Oil", ar: "زيت ذرة / عباد شمس", state: "خام", cal: 884 },
-    { en: "Ghee (Samna)", ar: "سمن بلدي", state: "خام", cal: 900 },
-    { en: "Butter", ar: "زبدة", state: "خام", cal: 717 },
-    { en: "Tahini", ar: "طحينة", state: "خام", cal: 595 },
-    { en: "Mayonnaise", ar: "مايونيز", state: "جاهز", cal: 680 },
-    { en: "Peanut Butter", ar: "زبدة فول سوداني", state: "جاهز", cal: 588 },
-    { en: "Mixed Nuts", ar: "مكسرات مشكلة", state: "خام", cal: 607 }
-  ],
-};
 // ========== ثوابت التصميم ==========
 const C = {
   bg: "#0a0a12", card: "#11111e", cardBorder: "#1e1e35",
@@ -169,7 +25,72 @@ const INPUT_STYLE = {
   fontSize: "0.95rem", fontFamily: "inherit",
   outline: "none", boxSizing: "border-box", direction: "rtl",
 };
+
+// ========== أدوات مساعدة ==========
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+}
+// ---- الوحدات: g (لكل 100جم) | ml (لكل 100مل) | piece (لكل حبة/وحدة) ----
+const isPiece = (f) => f.unit === "piece";
+const unitAr = (f) => (f.unit === "ml" ? "مل" : isPiece(f) ? "حبة" : "جم");
+const unitEn = (f) => (f.unit === "ml" ? "ml" : isPiece(f) ? "pc" : "g");
+const perText = (f) => `${f.cal} kcal/${isPiece(f) ? "حبة" : f.unit === "ml" ? "100ml" : "100g"}`;
+const caloriesOf = (f, qty) => (isPiece(f) ? f.cal * qty : (f.cal * qty) / 100);
+const calcQty = (totalCals, f, round5) => {
+  if (isPiece(f)) {
+    const raw = totalCals / f.cal;
+    return round5 ? Math.max(0.5, Math.round(raw * 2) / 2) : Math.round(raw * 10) / 10;
+  }
+  const raw = (totalCals / f.cal) * 100;
+  return round5 ? Math.max(5, Math.round(raw / 5) * 5) : Math.round(raw);
+};
+const macrosAt = (f, qty) => {
+  const k = isPiece(f) ? qty : qty / 100;
+  return { p: Math.round((f.p || 0) * k * 10) / 10, c: Math.round((f.c || 0) * k * 10) / 10, f: Math.round((f.f || 0) * k * 10) / 10 };
+};
+const fmtQty = (f, qty) => `${qty} ${unitAr(f)}`;
+const buildCopyText = (food, qty, items) =>
+  `بدائل ${food.ar} (${fmtQty(food, qty)}):\n` + items.map((a) => `- ${a.ar}: ${fmtQty(a, a.needed)}`).join("\n");
+
 // ========== المكونات الفرعية ==========
+function CopyButton({ getText, label = "نسخ", small = false, color }) {
+  const [state, setState] = useState("idle"); // idle | ok | fail
+  const col = color || C.teal;
+  const onClick = async (e) => {
+    e.stopPropagation();
+    const ok = await copyText(getText());
+    setState(ok ? "ok" : "fail");
+    setTimeout(() => setState("idle"), 1600);
+  };
+  const text = state === "ok" ? "تم النسخ ✓" : state === "fail" ? "فشل النسخ" : label;
+  const c = state === "ok" ? C.neon : state === "fail" ? C.red : col;
+  return (
+    <button onClick={onClick} style={{
+      background: `${c}14`, border: `1px solid ${c}55`, color: c,
+      borderRadius: 10, padding: small ? "3px 9px" : "9px 16px",
+      fontSize: small ? "0.68rem" : "0.82rem", fontWeight: 700,
+      cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s", whiteSpace: "nowrap",
+    }}>{small && state === "idle" ? "📋" : ""} {text}</button>
+  );
+}
+
 function StepLabel({ num, text, color }) {
   const col = color || C.neon;
   return (
@@ -185,19 +106,21 @@ function StepLabel({ num, text, color }) {
     </div>
   );
 }
-function FoodSelector({ label, stepNum, catFoods, selected, onSelect, search, onSearch, stepColor }) {
+
+// multi=true => selectedList (مصفوفة) وتعدد الاختيار
+function FoodSelector({ label, stepNum, catFoods, selected, selectedList, multi, onSelect, search, onSearch, stepColor }) {
   const col = stepColor || C.neon;
   const filtered = useMemo(() => {
     if (!search.trim()) return catFoods;
     const q = search.toLowerCase();
-    return catFoods.filter(f => f.ar.includes(search) || f.en.toLowerCase().includes(q));
+    return catFoods.filter((f) => f.ar.includes(search) || f.en.toLowerCase().includes(q));
   }, [search, catFoods]);
   return (
     <div>
       <StepLabel num={stepNum} text={label} color={col} />
       <div style={{ position: "relative", marginBottom: 8 }}>
         <span style={{ position: "absolute", top: "50%", right: 12, transform: "translateY(-50%)", fontSize: 13, opacity: 0.35 }}>🔍</span>
-        <input value={search} onChange={e => onSearch(e.target.value)}
+        <input value={search} onChange={(e) => onSearch(e.target.value)}
           placeholder="ابحث بالعربي أو الإنجليزي..."
           style={{ ...INPUT_STYLE, paddingRight: 34 }} />
       </div>
@@ -205,8 +128,8 @@ function FoodSelector({ label, stepNum, catFoods, selected, onSelect, search, on
         {filtered.length === 0 && (
           <p style={{ color: C.muted, fontSize: "0.78rem", textAlign: "center", padding: 10 }}>لا توجد نتائج</p>
         )}
-        {filtered.map(f => {
-          const active = selected?.en === f.en;
+        {filtered.map((f) => {
+          const active = multi ? selectedList.some((x) => x.en === f.en) : selected?.en === f.en;
           return (
             <button key={f.en} onClick={() => onSelect(f)} style={{
               display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -216,13 +139,24 @@ function FoodSelector({ label, stepNum, catFoods, selected, onSelect, search, on
               cursor: "pointer", fontFamily: "inherit", textAlign: "right",
               transition: "all 0.15s",
             }}>
-              <span style={{
-                background: `${stateTag(f.state)}18`, color: stateTag(f.state),
-                padding: "2px 8px", borderRadius: 6, fontSize: "0.65rem", fontWeight: 600,
-              }}>{f.state}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                {multi && (
+                  <span style={{
+                    width: 18, height: 18, borderRadius: 5, flexShrink: 0,
+                    border: `1px solid ${active ? col : C.muted}`,
+                    background: active ? col : "transparent", color: C.bg,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 12, fontWeight: 900,
+                  }}>{active ? "✓" : ""}</span>
+                )}
+                <span style={{
+                  background: `${stateTag(f.state)}18`, color: stateTag(f.state),
+                  padding: "2px 8px", borderRadius: 6, fontSize: "0.65rem", fontWeight: 600,
+                }}>{f.state}</span>
+              </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 1 }}>
                 <span style={{ color: active ? col : C.text, fontSize: "0.88rem", fontWeight: active ? 700 : 400 }}>{f.ar}</span>
-                <span style={{ color: C.muted, fontSize: "0.65rem" }}>{f.en} · {f.cal} kcal/100g</span>
+                <span style={{ color: C.muted, fontSize: "0.65rem" }}>{f.en} · {perText(f)}</span>
               </div>
             </button>
           );
@@ -231,14 +165,19 @@ function FoodSelector({ label, stepNum, catFoods, selected, onSelect, search, on
     </div>
   );
 }
+
 function AlternativeRow({ alt }) {
-  const pct = Math.min(100, Math.round((alt.needed / 500) * 100));
+  const pct = Math.min(100, Math.round((alt.needed / (isPiece(alt) ? 10 : 500)) * 100));
+  const m = macrosAt(alt, alt.needed);
   return (
     <div style={{ background: "#ffffff05", border: `1px solid ${C.cardBorder}`, borderRadius: 14, padding: "12px 16px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
-        <div>
-          <span style={{ color: C.teal, fontWeight: 800, fontSize: "1.2rem" }}>{alt.needed}</span>
-          <span style={{ color: C.subtext, fontSize: "0.75rem", marginRight: 3 }}>g</span>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 8 }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6 }}>
+          <div>
+            <span style={{ color: C.teal, fontWeight: 800, fontSize: "1.2rem" }}>{alt.needed}</span>
+            <span style={{ color: C.subtext, fontSize: "0.75rem", marginRight: 3 }}>{unitEn(alt)}</span>
+          </div>
+          <CopyButton small getText={() => `${alt.ar}: ${fmtQty(alt, alt.needed)}`} label="نسخ" />
         </div>
         <div style={{ textAlign: "right" }}>
           <div style={{ color: C.text, fontSize: "0.9rem", fontWeight: 600 }}>{alt.ar}</div>
@@ -247,6 +186,9 @@ function AlternativeRow({ alt }) {
             padding: "1px 7px", borderRadius: 5, fontSize: "0.65rem", fontWeight: 700,
             display: "inline-block", marginTop: 2,
           }}>{alt.state} · {alt.cal} kcal</span>
+          {(m.p > 0 || m.c > 0 || m.f > 0) && (
+            <div style={{ color: C.muted, fontSize: "0.65rem", marginTop: 4 }} dir="ltr">P {m.p} · C {m.c} · F {m.f}</div>
+          )}
         </div>
       </div>
       <div style={{ height: 4, background: C.cardBorder, borderRadius: 3, overflow: "hidden" }}>
@@ -255,39 +197,52 @@ function AlternativeRow({ alt }) {
     </div>
   );
 }
+
 function MealCard({ index, onRemove, showRemove }) {
-  const [mode, setMode]         = useState("all");
-  const [cat, setCat]           = useState(Object.keys(DB)[0]);
-  const [food, setFood]         = useState(DB[Object.keys(DB)[0]][0]);
-  const [grams, setGrams]       = useState("");
-  const [search, setSearch]     = useState("");
-  const [targetFood, setTargetFood] = useState(null);
-  const [searchB, setSearchB]   = useState("");
+  const firstCat = Object.keys(DB)[0];
+  const [mode, setMode] = useState("all");
+  const [cat, setCat] = useState(firstCat);
+  const [food, setFood] = useState(DB[firstCat][0]);
+  const [grams, setGrams] = useState("");
+  const [search, setSearch] = useState("");
+  const [targets, setTargets] = useState([]); // بدائل محددة (متعددة)
+  const [searchB, setSearchB] = useState("");
+  const [round5, setRound5] = useState(false);
   const gramsRef = useRef(null);
   const catFoods = DB[cat];
+
   const handleCatChange = (c) => {
-    setCat(c); 
-    setFood(DB[c][0]); 
-    setTargetFood(null);
-    setSearch(""); 
-    setSearchB(""); 
-    setGrams("");
+    setCat(c); setFood(DB[c][0]); setTargets([]);
+    setSearch(""); setSearchB(""); setGrams("");
   };
+  const toggleTarget = (f) =>
+    setTargets((prev) => (prev.some((x) => x.en === f.en) ? prev.filter((x) => x.en !== f.en) : [...prev, f]));
+
   const totalCals = useMemo(() => {
     const g = parseFloat(grams);
-    return (!g || g <= 0) ? 0 : (food.cal * g) / 100;
+    return !g || g <= 0 ? 0 : caloriesOf(food, g);
   }, [food, grams]);
+
   const alternatives = useMemo(() => {
     if (!totalCals) return [];
     return catFoods
-      .filter(f => f.en !== food.en)
-      .map(f => ({ ...f, needed: Math.round((totalCals / f.cal) * 100) }))
+      .filter((f) => f.en !== food.en)
+      .map((f) => ({ ...f, needed: calcQty(totalCals, f, round5) }))
       .sort((a, b) => a.needed - b.needed);
-  }, [totalCals, catFoods, food]);
-  const specificResult = useMemo(() => {
-    if (!totalCals || !targetFood) return null;
-    return Math.round((totalCals / targetFood.cal) * 100);
-  }, [totalCals, targetFood]);
+  }, [totalCals, catFoods, food, round5]);
+
+  const specificResults = useMemo(() => {
+    if (!totalCals || !targets.length) return [];
+    return targets.map((f) => ({ ...f, needed: calcQty(totalCals, f, round5) }));
+  }, [totalCals, targets, round5]);
+
+  const RoundToggle = (
+    <label style={{ display: "flex", alignItems: "center", gap: 8, color: C.subtext, fontSize: "0.78rem", cursor: "pointer", marginBottom: 12 }}>
+      <input type="checkbox" checked={round5} onChange={(e) => setRound5(e.target.checked)} style={{ accentColor: C.neon }} />
+      تقريب الجرامات لأقرب 5 جم
+    </label>
+  );
+
   return (
     <div style={{
       background: C.card, border: `1px solid ${C.cardBorder}`,
@@ -307,8 +262,9 @@ function MealCard({ index, onRemove, showRemove }) {
         fontSize: "0.75rem", letterSpacing: "0.2em",
         color: C.neon, fontWeight: 700, opacity: 0.7, textTransform: "uppercase",
       }}>◈ وجبة {index + 1}</div>
+
       <div style={{ display: "flex", gap: 8, marginBottom: "1.4rem", background: "#ffffff06", borderRadius: 14, padding: 5 }}>
-        {(["all", "specific"]).map(m => (
+        {["all", "specific"].map((m) => (
           <button key={m} onClick={() => setMode(m)} style={{
             flex: 1, padding: "10px 8px", borderRadius: 10,
             border: `1px solid ${mode === m ? C.neon + "55" : "transparent"}`,
@@ -317,14 +273,15 @@ function MealCard({ index, onRemove, showRemove }) {
             cursor: "pointer", fontFamily: "inherit", transition: "all 0.18s",
           }}>
             <div style={{ fontSize: "0.85rem", fontWeight: mode === m ? 700 : 400 }}>
-              {m === "all" ? "📋 كل البدائل" : "🎯 بديل محدد"}
+              {m === "all" ? "📋 كل البدائل" : "🎯 بدائل محددة"}
             </div>
           </button>
         ))}
       </div>
+
       <StepLabel num="1" text="اختر الفئة الغذائية" />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: "1.4rem" }}>
-        {Object.keys(DB).map(c => (
+        {Object.keys(DB).map((c) => (
           <button key={c} onClick={() => handleCatChange(c)} style={{
             padding: "6px 14px", borderRadius: 50,
             border: `1px solid ${cat === c ? C.neon : C.cardBorder}`,
@@ -335,19 +292,19 @@ function MealCard({ index, onRemove, showRemove }) {
           }}>{c}</button>
         ))}
       </div>
+
       {mode === "all" ? (
         <>
           <FoodSelector
-            label="اختر الصنف الأساسي"
-            stepNum="2" catFoods={catFoods} selected={food}
+            label="اختر الصنف الأساسي" stepNum="2" catFoods={catFoods} selected={food}
             onSelect={(f) => { setFood(f); setGrams(""); setTimeout(() => gramsRef.current?.focus(), 50); }}
             search={search} onSearch={setSearch}
           />
-          <StepLabel num="3" text="أدخل الكمية بالجرام" />
+          <StepLabel num="3" text={`أدخل الكمية (${unitAr(food)})`} />
           <div style={{ position: "relative", marginBottom: "1.2rem" }}>
             <input ref={gramsRef} type="number" min={0} value={grams}
-              onChange={e => setGrams(e.target.value)} placeholder="مثال: 150" style={INPUT_STYLE} />
-            <span style={{ position: "absolute", top: "50%", left: 14, transform: "translateY(-50%)", color: C.subtext, fontSize: "0.8rem" }}>جرام</span>
+              onChange={(e) => setGrams(e.target.value)} placeholder="مثال: 150" style={INPUT_STYLE} />
+            <span style={{ position: "absolute", top: "50%", left: 14, transform: "translateY(-50%)", color: C.subtext, fontSize: "0.8rem" }}>{unitAr(food)}</span>
           </div>
           {totalCals > 0 && (
             <>
@@ -364,15 +321,19 @@ function MealCard({ index, onRemove, showRemove }) {
                   </div>
                   <div style={{ textAlign: "left" }}>
                     <div style={{ color: C.text, fontSize: "0.95rem", fontWeight: 700 }}>{food.ar}</div>
-                    <div style={{ color: C.muted, fontSize: "0.75rem" }}>{grams}g × {food.cal} cal</div>
+                    <div style={{ color: C.muted, fontSize: "0.75rem" }}>{grams} {unitEn(food)} × {food.cal} cal</div>
                   </div>
                 </div>
               </div>
-              <div style={{ fontSize: "0.75rem", color: C.teal, fontWeight: 800, letterSpacing: "0.15em", marginBottom: 10, textTransform: "uppercase" }}>
-                البدائل المقترحة بنفس السعرات
+              {RoundToggle}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, gap: 8 }}>
+                <div style={{ fontSize: "0.75rem", color: C.teal, fontWeight: 800, letterSpacing: "0.1em" }}>
+                  البدائل المقترحة بنفس السعرات
+                </div>
+                <CopyButton label="📋 نسخ كل البدائل" getText={() => buildCopyText(food, grams, alternatives)} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {alternatives.map(alt => <AlternativeRow key={alt.en} alt={alt} />)}
+                {alternatives.map((alt) => <AlternativeRow key={alt.en} alt={alt} />)}
               </div>
             </>
           )}
@@ -382,49 +343,66 @@ function MealCard({ index, onRemove, showRemove }) {
           <div style={{ background: `${C.neon}05`, border: `1px solid ${C.neon}22`, borderRadius: 16, padding: "14px", marginBottom: 12 }}>
             <div style={{ color: C.neon, fontSize: "0.75rem", fontWeight: 800, marginBottom: 10 }}>🅐 الصنف الأساسي</div>
             <FoodSelector
-              label="اختر الصنف"
-              stepNum="2" catFoods={catFoods} selected={food}
+              label="اختر الصنف" stepNum="2" catFoods={catFoods} selected={food}
               onSelect={(f) => { setFood(f); setGrams(""); }}
               search={search} onSearch={setSearch} stepColor={C.neon}
             />
             <StepLabel num="3" text="الكمية" color={C.neon} />
             <div style={{ position: "relative" }}>
               <input ref={gramsRef} type="number" min={0} value={grams}
-                onChange={e => setGrams(e.target.value)} placeholder="0"
+                onChange={(e) => setGrams(e.target.value)} placeholder="0"
                 style={{ ...INPUT_STYLE, border: `1px solid ${C.neon}44` }} />
-              <span style={{ position: "absolute", top: "50%", left: 14, transform: "translateY(-50%)", color: C.subtext, fontSize: "0.8rem" }}>جرام</span>
+              <span style={{ position: "absolute", top: "50%", left: 14, transform: "translateY(-50%)", color: C.subtext, fontSize: "0.8rem" }}>{unitAr(food)}</span>
             </div>
           </div>
+
           <div style={{ textAlign: "center", margin: "10px 0", fontSize: "1.5rem", color: C.teal }}>⇅</div>
+
           <div style={{ background: `${C.teal}05`, border: `1px solid ${C.teal}22`, borderRadius: 16, padding: "14px", marginBottom: 15 }}>
-            <div style={{ color: C.teal, fontSize: "0.75rem", fontWeight: 800, marginBottom: 10 }}>🅑 الصنف البديل</div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+              <div style={{ color: C.teal, fontSize: "0.75rem", fontWeight: 800 }}>
+                🅑 الأصناف البديلة (اختر أكتر من صنف)
+              </div>
+              {targets.length > 0 && (
+                <button onClick={() => setTargets([])} style={{
+                  background: "transparent", border: "none", color: C.subtext,
+                  fontSize: "0.7rem", cursor: "pointer", fontFamily: "inherit",
+                }}>مسح ({targets.length})</button>
+              )}
+            </div>
             <FoodSelector
-              label="اختر البديل"
-              stepNum="4" catFoods={catFoods} selected={targetFood}
-              onSelect={setTargetFood}
+              label="اختر البدائل" stepNum="4" catFoods={catFoods}
+              multi selectedList={targets} onSelect={toggleTarget}
               search={searchB} onSearch={setSearchB} stepColor={C.teal}
             />
           </div>
-          {totalCals > 0 && targetFood && (
+
+          {totalCals > 0 && specificResults.length > 0 && (
             <div style={{
               background: `linear-gradient(135deg, ${C.teal}20, ${C.neon}10)`,
-              border: `2px solid ${C.teal}44`, borderRadius: 20,
-              padding: "24px 20px", textAlign: "center",
+              border: `2px solid ${C.teal}44`, borderRadius: 20, padding: "20px 16px",
             }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 15, flexWrap: "wrap" }}>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ color: C.neon, fontWeight: 900, fontSize: "1.6rem" }}>{grams}g</div>
-                  <div style={{ color: C.subtext, fontSize: "0.75rem" }}>{food.ar}</div>
-                </div>
-                <div style={{ color: C.muted, fontSize: "2rem", opacity: 0.5 }}>=</div>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ color: C.teal, fontWeight: 900, fontSize: "2.2rem", lineHeight: 1 }}>{specificResult}g</div>
-                  <div style={{ color: C.subtext, fontSize: "0.8rem", marginTop: 5 }}>{targetFood.ar}</div>
-                </div>
+              <div style={{ textAlign: "center", marginBottom: 14 }}>
+                <div style={{ color: C.neon, fontWeight: 900, fontSize: "1.5rem" }}>{grams} {unitEn(food)}</div>
+                <div style={{ color: C.subtext, fontSize: "0.8rem" }}>{food.ar} · {Math.round(totalCals)} سعرة</div>
+                <div style={{ color: C.muted, fontSize: "1.4rem", margin: "6px 0" }}>=</div>
               </div>
-              <div style={{ marginTop: 15, color: C.subtext, fontSize: "0.8rem" }}>
-                القيمة الحرارية: <span style={{ color: C.neon, fontWeight: 800 }}>{Math.round(totalCals)} سعرة</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 }}>
+                {specificResults.map((r) => (
+                  <div key={r.en} style={{
+                    display: "flex", justifyContent: "space-between", alignItems: "center",
+                    background: "#00000030", border: `1px solid ${C.teal}22`, borderRadius: 12, padding: "10px 14px", gap: 8,
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <span style={{ color: C.teal, fontWeight: 900, fontSize: "1.4rem" }}>{r.needed} {unitEn(r)}</span>
+                      <CopyButton small getText={() => `${r.ar}: ${fmtQty(r, r.needed)}`} />
+                    </div>
+                    <span style={{ color: C.text, fontSize: "0.88rem", fontWeight: 600, textAlign: "right" }}>{r.ar}</span>
+                  </div>
+                ))}
               </div>
+              {RoundToggle}
+              <CopyButton label="📋 نسخ كل البدائل المختارة" getText={() => buildCopyText(food, grams, specificResults)} />
             </div>
           )}
         </>
@@ -432,16 +410,19 @@ function MealCard({ index, onRemove, showRemove }) {
     </div>
   );
 }
+
 // ========== التطبيق الرئيسي ==========
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [meals, setMeals] = useState([{ id: 1 }]);
+
   useEffect(() => {
     const auth = localStorage.getItem("is_auth_2025");
     if (auth === "true") setIsAuthenticated(true);
   }, []);
+
   const handleLogin = (e) => {
     e.preventDefault();
     if (password === "2025") {
@@ -456,12 +437,13 @@ export default function App() {
     setIsAuthenticated(false);
     localStorage.removeItem("is_auth_2025");
   };
+
   if (!isAuthenticated) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: C.bg, direction: "rtl" }}>
         <div style={{ width: "100%", maxWidth: 400, padding: "2.5rem 2rem", background: C.card, borderRadius: 30, border: `1px solid ${C.cardBorder}`, boxShadow: "0 20px 50px #000000", textAlign: "center" }}>
           <div style={{ width: 70, height: 70, background: `${C.neon}12`, borderRadius: 20, margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${C.neon}33`, color: C.neon, fontSize: 32 }}>⚡</div>
-          <h2 style={{ margin: "0 0 10px", fontSize: "1.6rem", fontWeight: 900, color: C.text }}>تسجيل الدخول</h2>
+          <h2 style={{ margin: "0 0 10px", fontSize: "1.6rem", fontWeight: 900, color: C.text }}>MSR Food Alternatives</h2>
           <p style={{ color: C.subtext, fontSize: "0.9rem", marginBottom: 30 }}>أدخل كلمة المرور الموحدة</p>
           <form onSubmit={handleLogin}>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="كلمة المرور" style={{ ...INPUT_STYLE, textAlign: "center", fontSize: "1.2rem", letterSpacing: 5, border: `1px solid ${error ? C.red : C.cardBorder}`, background: error ? `${C.red}05` : "#ffffff07" }} autoFocus />
@@ -472,30 +454,38 @@ export default function App() {
       </div>
     );
   }
+
   return (
     <div style={{ minHeight: "100vh", background: C.bg, fontFamily: "'Cairo', sans-serif", direction: "rtl", color: C.text }}>
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, background: `radial-gradient(ellipse 60% 40% at 80% 10%, ${C.neon}05 0%, transparent 60%), radial-gradient(ellipse 50% 50% at 10% 80%, ${C.teal}04 0%, transparent 60%)` }} />
-      
+
       <div style={{ maxWidth: 540, margin: "0 auto", padding: "0 16px 100px", position: "relative", zIndex: 1 }}>
         <header style={{ textAlign: "center", padding: "3rem 0 2rem", position: "relative" }}>
-          <button onClick={handleLogout} style={{ position: "absolute", top: 20, left: 0, background: "transparent", border: `1px solid ${C.subtext}33`, color: C.subtext, padding: "4px 10px", borderRadius: 8, fontSize: "0.7rem", cursor: "pointer" }}>خروج</button>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `${C.neon}12`, border: `1px solid ${C.neon}33`, color: C.neon, padding: "6px 16px", borderRadius: 25, fontSize: "0.7rem", letterSpacing: "0.15em", fontWeight: 800, marginBottom: 15 }}>⚡ SMART NUTRITION V2.5</div>
-          <h1 style={{ margin: "0 0 10px", fontSize: "2.2rem", fontWeight: 900, lineHeight: 1.1 }}>حاسبة البدائل <span style={{ color: C.neon }}>الذكية</span></h1>
+          <button onClick={handleLogout} style={{ position: "absolute", top: 20, left: 0, background: "transparent", border: `1px solid ${C.subtext}33`, color: C.subtext, padding: "4px 10px", borderRadius: 8, fontSize: "0.7rem", cursor: "pointer", fontFamily: "inherit" }}>خروج</button>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `${C.neon}12`, border: `1px solid ${C.neon}33`, color: C.neon, padding: "6px 16px", borderRadius: 25, fontSize: "0.7rem", letterSpacing: "0.15em", fontWeight: 800, marginBottom: 15 }}>⚡ MSR NUTRITION</div>
+          <h1 style={{ margin: "0 0 10px", fontSize: "2rem", fontWeight: 900, lineHeight: 1.2 }}>
+            <span style={{ color: C.neon }}>MSR Food Alternatives</span>
+            <br />بدائل الأكل
+          </h1>
           <p style={{ color: C.subtext, margin: 0, fontSize: "0.9rem", lineHeight: 1.6 }}>استبدل أكلاتك المفضلة بنفس السعرات بدقة متناهية</p>
         </header>
+
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {meals.map((m, i) => (
-            <MealCard key={m.id} index={i} showRemove={meals.length > 1} onRemove={() => setMeals(prev => prev.filter(x => x.id !== m.id))} />
+            <MealCard key={m.id} index={i} showRemove={meals.length > 1} onRemove={() => setMeals((prev) => prev.filter((x) => x.id !== m.id))} />
           ))}
         </div>
+
         {meals.length < 5 && (
-          <button onClick={() => setMeals(prev => [...prev, { id: Date.now() }])} style={{ width: "100%", marginTop: 20, padding: "16px", background: "transparent", border: `2px dashed ${C.neon}33`, borderRadius: 20, color: C.neon, cursor: "pointer", fontFamily: "inherit", fontSize: "0.95rem", fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>＋ إضافة وجبة أخرى</button>
+          <button onClick={() => setMeals((prev) => [...prev, { id: Date.now() }])} style={{ width: "100%", marginTop: 20, padding: "16px", background: "transparent", border: `2px dashed ${C.neon}33`, borderRadius: 20, color: C.neon, cursor: "pointer", fontFamily: "inherit", fontSize: "0.95rem", fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>＋ إضافة وجبة أخرى</button>
         )}
+
         <footer style={{ textAlign: "center", marginTop: 40, color: C.muted, fontSize: "0.75rem", padding: "0 20px" }}>
-          الحسابات مبنية على متوسط السعرات الحرارية لكل 100 جرام<br />
-          <div style={{ color: `${C.neon}66`, marginTop: 8, fontWeight: 700 }}>◈ 2025 Smart Calculator ◈</div>
+          الحسابات مبنية على السعرات لكل 100 جرام، من قاعدة MSR Nutrition Planner<br />
+          <div style={{ color: `${C.neon}66`, marginTop: 8, fontWeight: 700 }}>◈ MSR Food Alternatives ◈</div>
         </footer>
       </div>
+
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
