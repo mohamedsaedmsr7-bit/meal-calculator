@@ -17,9 +17,6 @@ const DB = {
     {"id":309,"en":"White Potato","ar":"بطاطس","state":"عادي","unit":"g","cal":77,"p":2,"c":17,"f":0.1},
     {"id":310,"en":"Bread (Baladi)","ar":"خبز بلدي","state":"عادي","unit":"g","cal":253,"p":8,"c":52,"f":1.5},
     {"id":311,"en":"Quinoa","ar":"كينوا","state":"مطبوخ","unit":"g","cal":120,"p":4,"c":22,"f":1.9},
-    {"id":312,"en":"Lentils (cooked)","ar":"عدس","state":"عادي","unit":"g","cal":116,"p":9,"c":20,"f":0.4},
-    {"id":313,"en":"Chickpeas (cooked)","ar":"حمص","state":"عادي","unit":"g","cal":164,"p":9,"c":27,"f":2.6},
-    {"id":314,"en":"Fava Beans (Ful)","ar":"فول مدمس","state":"عادي","unit":"g","cal":110,"p":8,"c":26,"f":0.5},
     {"id":315,"en":"Corn","ar":"ذرة","state":"عادي","unit":"g","cal":96,"p":3.2,"c":19,"f":1.2},
     {"id":316,"en":"Sweet Potato (boiled)","ar":"بطاطا مسلوقة","state":"عادي","unit":"g","cal":76,"p":1.4,"c":17.7,"f":0.1},
     {"id":317,"en":"Pasta with Tomato Sauce (boiled)","ar":"مكرونة بصلصة الطماطم","state":"مطبوخ","unit":"g","cal":130,"p":4.7,"c":24,"f":1.5},
@@ -30,13 +27,13 @@ const DB = {
     {"id":1007,"en":"Raw Potato (uncooked)","ar":"بطاطس نية","state":"نيء","unit":"g","cal":77,"p":2,"c":17,"f":0.1},
     {"id":1008,"en":"Raw Sweet Potato","ar":"بطاطا حلوة نية","state":"نيء","unit":"g","cal":86,"p":1.6,"c":20,"f":0.1},
     {"id":1009,"en":"Raw Pasta (dry)","ar":"مكرونة جافة","state":"جاف","unit":"g","cal":357,"p":13,"c":74,"f":1.5},
-    {"id":1010,"en":"Raw Lentils (dry)","ar":"عدس جاف","state":"جاف","unit":"g","cal":353,"p":26,"c":63,"f":1},
-    {"id":1102,"en":"Baked Falafel","ar":"فلافل بالفرن","state":"جاهز","unit":"g","cal":160,"p":8.3,"c":20,"f":5},
-    {"id":1103,"en":"Ful Medames","ar":"فول مدمس","state":"عادي","unit":"g","cal":110,"p":8,"c":26,"f":0.5},
     {"id":1104,"en":"Koshari","ar":"كشري","state":"عادي","unit":"g","cal":126,"p":4,"c":23,"f":2},
-    {"id":1109,"en":"Baladi Bread (Large)","ar":"عيش بلدي كبير","state":"جاهز","unit":"g","cal":253.3,"p":8.3,"c":51.7,"f":1.5},
-    {"id":1110,"en":"Rusks / Biscotti","ar":"بقسماط","state":"عادي","unit":"g","cal":380,"p":8,"c":75,"f":5},
-    {"id":1111,"en":"Taamiya (falafel) fried","ar":"طعمية مقلية","state":"جاهز","unit":"g","cal":315,"p":10,"c":35,"f":15},
+  ],
+  "🫘 بقوليات": [
+    {"id":312,"en":"Lentils (cooked)","ar":"عدس","state":"عادي","unit":"g","cal":116,"p":9,"c":20,"f":0.4},
+    {"id":313,"en":"Chickpeas (cooked)","ar":"حمص","state":"عادي","unit":"g","cal":164,"p":9,"c":27,"f":2.6},
+    {"id":314,"en":"Fava Beans (Ful)","ar":"فول مدمس","state":"عادي","unit":"g","cal":110,"p":8,"c":26,"f":0.5},
+    {"id":1010,"en":"Raw Lentils (dry)","ar":"عدس جاف","state":"جاف","unit":"g","cal":353,"p":26,"c":63,"f":1},
   ],
   "🍗 بروتين": [
     {"id":101,"en":"Chicken Breast","ar":"صدر دجاج","state":"عادي","unit":"g","cal":165,"p":31,"c":0,"f":3.6},
@@ -75,7 +72,7 @@ const DB = {
     {"id":211,"en":"Greek Yogurt (low-fat)","ar":"زبادي يوناني","state":"عادي","unit":"g","cal":59,"p":10,"c":4,"f":0.7},
     {"id":212,"en":"Greek Yogurt (full-fat)","ar":"زبادي يوناني كامل","state":"عادي","unit":"g","cal":97,"p":9,"c":3.6,"f":5},
     {"id":213,"en":"Rayeb Yogurt","ar":"رايب","state":"عادي","unit":"g","cal":60,"p":3.5,"c":5,"f":3},
-    {"id":214,"en":"Light Cream Cheese","ar":"كريم تشيز لايت","state":"عادي","unit":"g","cal":125,"p":9,"c":5,"f":8},
+    {"id":214,"en":"Light Cream Cheese","ar":"جبنة كريمي لايت (كريم تشيز لايت)","state":"عادي","unit":"g","cal":125,"p":9,"c":5,"f":8},
     {"id":215,"en":"Low-Salt White Cheese (low-fat)","ar":"جبنة بيضاء قليلة الملح قليلة الدسم","state":"عادي","unit":"g","cal":170,"p":17,"c":3,"f":9},
     {"id":216,"en":"Low-Salt White Cheese (full-fat)","ar":"جبنة بيضاء قليلة الملح","state":"عادي","unit":"g","cal":248,"p":14,"c":3,"f":20},
     {"id":412,"en":"Whole Milk","ar":"حليب كامل الدسم","state":"سائل","unit":"g","cal":61,"p":3.2,"c":4.7,"f":3.6},
@@ -84,6 +81,8 @@ const DB = {
     {"id":415,"en":"Almarai Protein Milk","ar":"حليب ألمراي بروتين","state":"سائل","unit":"g","cal":42,"p":5,"c":5,"f":0.2},
     {"id":416,"en":"Oat Milk","ar":"حليب الشوفان","state":"سائل","unit":"g","cal":45,"p":1,"c":7,"f":1.5},
     {"id":417,"en":"Almond Milk (unsweetened)","ar":"حليب اللوز","state":"سائل","unit":"g","cal":20,"p":0.4,"c":1.2,"f":1.5},
+    {"id":9001,"en":"Roumy Cheese","ar":"جبنة رومي","state":"عادي","unit":"g","cal":350,"p":25,"c":2,"f":27},
+    {"id":9002,"en":"Feta Cheese (Light)","ar":"جبنة فيتا لايت","state":"لايت","unit":"g","cal":170,"p":18,"c":4,"f":9.5},
   ],
   "🥦 خضروات": [
     {"id":501,"en":"Broccoli","ar":"بروكلي","state":"عادي","unit":"g","cal":34,"p":2.8,"c":7,"f":0.4},
@@ -152,7 +151,6 @@ const DB = {
     {"id":616,"en":"Avocado Oil","ar":"زيت الأفوكادو","state":"عادي","unit":"g","cal":884,"p":0,"c":0,"f":100},
   ],
 };
-
 
 // ========== ثوابت التصميم ==========
 const C = {
