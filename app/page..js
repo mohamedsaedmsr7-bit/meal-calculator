@@ -316,11 +316,15 @@ function FoodSelector({ label, stepNum, catFoods, selected, selectedList, multi,
   );
 }
 
-function AlternativeRow({ alt }) {
+function AlternativeRow({ alt, checked, onToggle }) {
   const pct = Math.min(100, Math.round((alt.needed / (isPiece(alt) ? 10 : 500)) * 100));
   const m = macrosAt(alt, alt.needed);
   return (
-    <div style={{ background: "#ffffff05", border: `1px solid ${C.cardBorder}`, borderRadius: 14, padding: "12px 16px" }}>
+    <div style={{
+      background: checked ? `${C.teal}10` : "#ffffff05",
+      border: `1px solid ${checked ? C.teal + "88" : C.cardBorder}`,
+      borderRadius: 14, padding: "12px 16px", transition: "all 0.15s",
+    }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, gap: 8 }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6 }}>
           <div>
@@ -329,6 +333,13 @@ function AlternativeRow({ alt }) {
           </div>
           <CopyButton small getText={() => `${alt.ar}: ${fmtQty(alt, alt.needed)}`} label="نسخ" />
         </div>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 10, flexDirection: "row-reverse" }}>
+        <button onClick={onToggle} aria-label="تحديد البديل" style={{
+          width: 22, height: 22, borderRadius: 6, flexShrink: 0, marginTop: 2, cursor: "pointer", padding: 0,
+          border: `1px solid ${checked ? C.teal : C.muted}`,
+          background: checked ? C.teal : "transparent", color: C.bg,
+          fontSize: 14, fontWeight: 900, fontFamily: "inherit",
+        }}>{checked ? "✓" : ""}</button>
         <div style={{ textAlign: "right" }}>
           <div style={{ color: C.text, fontSize: "0.9rem", fontWeight: 600 }}>{alt.ar}</div>
           <span style={{
@@ -339,6 +350,7 @@ function AlternativeRow({ alt }) {
           {(m.p > 0 || m.c > 0 || m.f > 0) && (
             <div style={{ color: C.muted, fontSize: "0.65rem", marginTop: 4 }} dir="ltr">P {m.p} · C {m.c} · F {m.f}</div>
           )}
+        </div>
         </div>
       </div>
       <div style={{ height: 4, background: C.cardBorder, borderRadius: 3, overflow: "hidden" }}>
@@ -358,13 +370,16 @@ function MealCard({ index, onRemove, showRemove }) {
   const [targets, setTargets] = useState([]); // بدائل محددة (متعددة)
   const [searchB, setSearchB] = useState("");
   const [round5, setRound5] = useState(false);
+  const [picked, setPicked] = useState([]); // بدائل محددة بالـ checkbox للنسخ
   const gramsRef = useRef(null);
   const catFoods = DB[cat];
 
   const handleCatChange = (c) => {
-    setCat(c); setFood(DB[c][0]); setTargets([]);
+    setCat(c); setFood(DB[c][0]); setTargets([]); setPicked([]);
     setSearch(""); setSearchB(""); setGrams("");
   };
+  const togglePicked = (en) =>
+    setPicked((prev) => (prev.includes(en) ? prev.filter((x) => x !== en) : [...prev, en]));
   const toggleTarget = (f) =>
     setTargets((prev) => (prev.some((x) => x.en === f.en) ? prev.filter((x) => x.en !== f.en) : [...prev, f]));
 
@@ -380,6 +395,8 @@ function MealCard({ index, onRemove, showRemove }) {
       .map((f) => ({ ...f, needed: calcQty(totalCals, f, round5) }))
       .sort((a, b) => a.needed - b.needed);
   }, [totalCals, catFoods, food, round5]);
+
+  const pickedAlts = useMemo(() => alternatives.filter((a) => picked.includes(a.en)), [alternatives, picked]);
 
   const specificResults = useMemo(() => {
     if (!totalCals || !targets.length) return [];
@@ -447,7 +464,7 @@ function MealCard({ index, onRemove, showRemove }) {
         <>
           <FoodSelector
             label="اختر الصنف الأساسي" stepNum="2" catFoods={catFoods} selected={food}
-            onSelect={(f) => { setFood(f); setGrams(""); setTimeout(() => gramsRef.current?.focus(), 50); }}
+            onSelect={(f) => { setFood(f); setGrams(""); setPicked([]); setTimeout(() => gramsRef.current?.focus(), 50); }}
             search={search} onSearch={setSearch}
           />
           <StepLabel num="3" text={`أدخل الكمية (${unitAr(food)})`} />
@@ -482,8 +499,31 @@ function MealCard({ index, onRemove, showRemove }) {
                 </div>
                 <CopyButton label="📋 نسخ كل البدائل" getText={() => buildCopyText(food, grams, alternatives)} />
               </div>
+              <div style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
+                background: "#ffffff06", border: `1px solid ${C.cardBorder}`, borderRadius: 12, padding: "8px 12px", marginBottom: 10,
+              }}>
+                <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                  <button onClick={() => setPicked(alternatives.map((a) => a.en))} style={{
+                    background: "transparent", border: "none", color: C.teal, fontSize: "0.72rem", cursor: "pointer", fontFamily: "inherit", fontWeight: 700,
+                  }}>تحديد الكل</button>
+                  {picked.length > 0 && (
+                    <button onClick={() => setPicked([])} style={{
+                      background: "transparent", border: "none", color: C.subtext, fontSize: "0.72rem", cursor: "pointer", fontFamily: "inherit",
+                    }}>مسح التحديد</button>
+                  )}
+                </div>
+                {pickedAlts.length > 0 ? (
+                  <CopyButton label={`📋 نسخ المحدد (${pickedAlts.length})`} color={C.neon}
+                    getText={() => buildCopyText(food, grams, pickedAlts)} />
+                ) : (
+                  <span style={{ color: C.muted, fontSize: "0.7rem" }}>حدد أكتر من بديل لنسخهم مرة واحدة</span>
+                )}
+              </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {alternatives.map((alt) => <AlternativeRow key={alt.en} alt={alt} />)}
+                {alternatives.map((alt) => (
+                  <AlternativeRow key={alt.en} alt={alt} checked={picked.includes(alt.en)} onToggle={() => togglePicked(alt.en)} />
+                ))}
               </div>
             </>
           )}
