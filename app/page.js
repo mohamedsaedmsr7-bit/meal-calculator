@@ -26,6 +26,27 @@ const DB = {
     {"id":1008,"en":"Raw Sweet Potato","ar":"بطاطا حلوة نية","state":"نيء","unit":"g","cal":86,"p":1.6,"c":20,"f":0.1},
     {"id":1009,"en":"Raw Pasta (dry)","ar":"مكرونة جافة","state":"جاف","unit":"g","cal":357,"p":13,"c":74,"f":1.5},
     {"id":1104,"en":"Koshari","ar":"كشري","state":"عادي","unit":"g","cal":126,"p":4,"c":23,"f":2},
+    {"id":9800,"en":"Whole Wheat Flour","ar":"دقيق قمح كامل الحبة","state":"جاف","unit":"g","cal":340,"p":13.2,"c":72,"f":2.5},
+    {"id":9801,"en":"White Flour","ar":"دقيق أبيض","state":"جاف","unit":"g","cal":364,"p":10.3,"c":76.3,"f":1},
+    {"id":9802,"en":"Oat Flour","ar":"دقيق الشوفان","state":"جاف","unit":"g","cal":404,"p":14.7,"c":65.7,"f":9.1},
+    {"id":9400,"en":"Corn Flakes","ar":"كورن فليكس","state":"عادي","unit":"g","cal":357,"p":7.5,"c":84,"f":0.4},
+    {"id":9401,"en":"Fitness Cereal","ar":"سيريال فيتنس","state":"عادي","unit":"g","cal":372,"p":8,"c":76,"f":1.6},
+    {"id":9302,"en":"Cerelac Rice (dry powder)","ar":"سيريلاك أرز","state":"جاف","unit":"g","cal":400,"p":9,"c":78,"f":6},
+    {"id":9300,"en":"Cerelac Wheat & Milk (dry powder)","ar":"سيريلاك قمح وحليب","state":"جاف","unit":"g","cal":420,"p":14,"c":71,"f":9},
+    {"id":9301,"en":"Cerelac Wheat (dry powder)","ar":"سيريلاك قمح","state":"جاف","unit":"g","cal":395,"p":12,"c":76,"f":4.5},
+    {"id":9105,"en":"Canned Sweet Corn","ar":"ذرة حلوة معلبة","state":"معلب","unit":"g","cal":85,"p":2.5,"c":17.5,"f":1.2},
+    {"id":9106,"en":"Santee Granola","ar":"جرانولا سانتي","state":"عادي","unit":"g","cal":435,"p":8,"c":63,"f":16.5},
+    {"id":9112,"en":"Digestive Biscuits","ar":"بسكويت دايجستف","state":"عادي","unit":"g","cal":480,"p":7,"c":65,"f":21},
+    {"id":9113,"en":"Chocolate Digestive Biscuits","ar":"بسكويت دايجستف بالشوكولاتة","state":"عادي","unit":"g","cal":495,"p":6.5,"c":64,"f":24},
+    {"id":9114,"en":"Rice Cakes","ar":"رايس كيك","state":"عادي","unit":"g","cal":387,"p":8,"c":82,"f":2.8},
+    {"id":9115,"en":"Oat Pasta (dry)","ar":"مكرونة شوفان جافة","state":"جاف","unit":"g","cal":355,"p":12,"c":65,"f":5},
+    {"id":9116,"en":"Oat Pasta (boiled)","ar":"مكرونة شوفان مسلوقة","state":"مطبوخ","unit":"g","cal":140,"p":5,"c":25,"f":2},
+    {"id":9117,"en":"Oat & Barley Rye Bread","ar":"عيش ريف شوفان وشعير","state":"عادي","unit":"g","cal":245,"p":10,"c":42,"f":4},
+    {"id":9118,"en":"Vermicelli (dry)","ar":"شعرية جافة","state":"جاف","unit":"g","cal":360,"p":11.5,"c":74,"f":1.5},
+    {"id":9119,"en":"Vermicelli (boiled)","ar":"شعرية مسلوقة","state":"مطبوخ","unit":"g","cal":156,"p":5.8,"c":30.5,"f":0.9},
+    {"id":9120,"en":"Orzo / Lisan Asfour (dry)","ar":"لسان عصفور جاف","state":"جاف","unit":"g","cal":365,"p":13,"c":75,"f":1.5},
+    {"id":9121,"en":"Orzo / Lisan Asfour (boiled)","ar":"لسان عصفور مسلوق","state":"مطبوخ","unit":"g","cal":137,"p":5,"c":27.5,"f":0.8},
+    {"id":9122,"en":"Cream of Rice Powder (dry)","ar":"كريم أوف رايس بودرة","state":"جاف","unit":"g","cal":366,"p":7,"c":82,"f":0.5},
     {"id":9004,"en":"Potato (boiled)","ar":"بطاطس مسلوقة","state":"مسلوق","unit":"g","cal":87,"p":1.9,"c":20.1,"f":0.1},
     {"id":9005,"en":"Potato (baked / air-fried)","ar":"بطاطس مشوية (فرن / قلاية هوائية)","state":"مشوي","unit":"g","cal":93,"p":2.5,"c":21.2,"f":0.1},
     {"id":9003,"en":"Sweet Potato (baked)","ar":"بطاطا حلوة مشوية","state":"مشوي","unit":"g","cal":90,"p":2,"c":20.7,"f":0.2},
@@ -46,7 +67,6 @@ const DB = {
     {"id":107,"en":"Salmon","ar":"سلمون","state":"عادي","unit":"g","cal":208,"p":20,"c":0,"f":13},
     {"id":108,"en":"Tilapia","ar":"بلطي","state":"عادي","unit":"g","cal":128,"p":26,"c":0,"f":2.7},
     {"id":109,"en":"Shrimp","ar":"جمبري","state":"عادي","unit":"g","cal":99,"p":24,"c":0.9,"f":0.3},
-    {"id":110,"en":"Turkey Breast","ar":"ديك رومي","state":"عادي","unit":"g","cal":135,"p":29,"c":0,"f":1},
     {"id":111,"en":"Sardines","ar":"سردين","state":"عادي","unit":"g","cal":185,"p":21,"c":0,"f":11},
     {"id":112,"en":"Mullet (Boori)","ar":"بوري","state":"مطبوخ","unit":"g","cal":150,"p":25.6,"c":0,"f":4.9},
     {"id":113,"en":"Mackerel","ar":"ماكريل","state":"مطبوخ","unit":"g","cal":260,"p":24,"c":0,"f":18},
@@ -58,6 +78,16 @@ const DB = {
     {"id":1003,"en":"Raw Ground Beef (uncooked)","ar":"لحم مفروم نيء","state":"نيء","unit":"g","cal":176,"p":20,"c":0,"f":10},
     {"id":1105,"en":"Hawawshi (lean)","ar":"حواوشي هش","state":"عادي","unit":"g","cal":200,"p":14,"c":18,"f":8},
     {"id":1107,"en":"Grilled Kofta","ar":"كفتة مشوية","state":"عادي","unit":"g","cal":164,"p":18,"c":5,"f":8},
+    {"id":9727,"en":"Lean Ground Meat (trimmed, no fat)","ar":"لحمة مفرومة متشفية من غير دهون","state":"عادي","unit":"g","cal":153,"p":26.4,"c":0,"f":4.5},
+    {"id":9729,"en":"Lean Red Meat (raw)","ar":"لحمة حمراء قليلة الدسم (نيئة)","state":"نيء","unit":"g","cal":133,"p":21.5,"c":0,"f":5},
+    {"id":9730,"en":"Beef Burger 90/10 (raw)","ar":"برجر لحم بقري 90% / 10% دهون (نيء)","state":"نيء","unit":"g","cal":176,"p":20,"c":0,"f":10},
+    {"id":9731,"en":"Ground Beef 95/5 (raw)","ar":"لحم مفروم 95% / 5% دهون (نيء)","state":"نيء","unit":"g","cal":137,"p":21.4,"c":0,"f":5},
+    {"id":9500,"en":"Turkey Meat","ar":"فصوص تركي (Turkey Meat)","state":"عادي","unit":"g","cal":170,"p":29.3,"c":2,"f":5},
+    {"id":9501,"en":"Turkey Breast, Skinless (raw)","ar":"صدر ديك رومي منزوع الجلد قبل الطهي","state":"نيء","unit":"g","cal":147,"p":30.1,"c":0,"f":2.1},
+    {"id":9502,"en":"Turkey Slices","ar":"شرائح الديك الرومي","state":"شرائح","unit":"g","cal":95.5,"p":16.3,"c":3.5,"f":1.8},
+    {"id":9109,"en":"Light Tuna in Oil (drained)","ar":"تونة لايت في زيت (مصفاة)","state":"مصفى","unit":"g","cal":190,"p":29,"c":0,"f":8.2},
+    {"id":9110,"en":"Tuna in Oil (undrained)","ar":"تونة في زيت (غير مصفاة)","state":"غير مصفى","unit":"g","cal":226,"p":24,"c":0,"f":14.5},
+    {"id":9111,"en":"Tuna in Water & Salt","ar":"تونة في ماء وملح","state":"عادي","unit":"g","cal":109,"p":25,"c":0,"f":1},
   ],
   "🥛 ألبان وأجبان": [
     {"id":201,"en":"Low-Fat Yogurt","ar":"زبادي قليل الدسم","state":"عادي","unit":"g","cal":61,"p":5,"c":7,"f":1.5},
@@ -69,11 +99,9 @@ const DB = {
     {"id":207,"en":"Cream Cheese","ar":"كريم تشيز","state":"عادي","unit":"g","cal":350,"p":6.2,"c":4.1,"f":34},
     {"id":208,"en":"Butter","ar":"زبدة","state":"عادي","unit":"g","cal":717,"p":0.9,"c":0.1,"f":80},
     {"id":209,"en":"Labneh","ar":"لبنة","state":"عادي","unit":"g","cal":89,"p":7,"c":4,"f":5},
-    {"id":210,"en":"Whipping Cream","ar":"كريمة خفق","state":"عادي","unit":"g","cal":340,"p":2.5,"c":3.6,"f":36},
     {"id":211,"en":"Greek Yogurt (low-fat)","ar":"زبادي يوناني","state":"عادي","unit":"g","cal":59,"p":10,"c":4,"f":0.7},
     {"id":212,"en":"Greek Yogurt (full-fat)","ar":"زبادي يوناني كامل","state":"عادي","unit":"g","cal":97,"p":9,"c":3.6,"f":5},
     {"id":213,"en":"Rayeb Yogurt","ar":"رايب","state":"عادي","unit":"g","cal":60,"p":3.5,"c":5,"f":3},
-    {"id":214,"en":"Light Cream Cheese","ar":"جبنة كريمي لايت (كريم تشيز لايت)","state":"عادي","unit":"g","cal":125,"p":9,"c":5,"f":8},
     {"id":215,"en":"Low-Salt White Cheese (low-fat)","ar":"جبنة بيضاء قليلة الملح قليلة الدسم","state":"عادي","unit":"g","cal":170,"p":17,"c":3,"f":9},
     {"id":216,"en":"Low-Salt White Cheese (full-fat)","ar":"جبنة بيضاء قليلة الملح","state":"عادي","unit":"g","cal":248,"p":14,"c":3,"f":20},
     {"id":412,"en":"Whole Milk","ar":"حليب كامل الدسم","state":"سائل","unit":"g","cal":61,"p":3.2,"c":4.7,"f":3.6},
@@ -82,6 +110,17 @@ const DB = {
     {"id":415,"en":"Almarai Protein Milk","ar":"حليب ألمراي بروتين","state":"سائل","unit":"g","cal":42,"p":5,"c":5,"f":0.2},
     {"id":416,"en":"Oat Milk","ar":"حليب الشوفان","state":"سائل","unit":"g","cal":45,"p":1,"c":7,"f":1.5},
     {"id":417,"en":"Almond Milk (unsweetened)","ar":"حليب لوز (بدون سكر)","state":"سائل","unit":"g","cal":20,"p":0.4,"c":1.2,"f":1.5},
+    {"id":9726,"en":"Greek Yogurt with Fruits","ar":"زبادي يوناني بالفواكه","state":"عادي","unit":"g","cal":106,"p":7.3,"c":12.3,"f":3},
+    {"id":9600,"en":"Qishta (Clotted Cream)","ar":"قشطة","state":"عادي","unit":"g","cal":337,"p":2.5,"c":3,"f":35},
+    {"id":9601,"en":"Light Cooking Cream","ar":"كريمة طبخ لايت","state":"عادي","unit":"g","cal":160,"p":2.5,"c":4,"f":15},
+    {"id":9602,"en":"Oat Cream (plant-based)","ar":"كريمة شوفان نباتية","state":"سائل","unit":"g","cal":150,"p":1,"c":6,"f":13},
+    {"id":9603,"en":"Whipping Cream","ar":"كريمة خفق","state":"عادي","unit":"g","cal":340,"p":2.8,"c":2.7,"f":36},
+    {"id":9604,"en":"Fat-Free Cream Cheese","ar":"جبنة كريمي منزوعة الدسم","state":"عادي","unit":"g","cal":105,"p":15.7,"c":7.7,"f":1},
+    {"id":9605,"en":"Kiri Labneh Cream Cheese","ar":"لبنة كريمي (كيري)","state":"عادي","unit":"g","cal":230,"p":5.5,"c":3,"f":22},
+    {"id":9606,"en":"Light Cream Cheese","ar":"جبنة كريمي لايت","state":"عادي","unit":"g","cal":208,"p":7.8,"c":8.1,"f":15.3},
+    {"id":9607,"en":"Low-Fat Cream Cheese","ar":"جبنة كريمي، قليلة الدسم","state":"عادي","unit":"g","cal":208,"p":7.8,"c":6.7,"f":16.7},
+    {"id":9107,"en":"Greek Yogurt (fat-free)","ar":"زبادي يوناني خالي الدسم","state":"عادي","unit":"g","cal":56,"p":10,"c":3.6,"f":0.2},
+    {"id":9108,"en":"Greek Yogurt (2%)","ar":"زبادي يوناني عادي (2%)","state":"عادي","unit":"g","cal":73,"p":9.9,"c":3.9,"f":2},
     {"id":9007,"en":"Lactose-Free Milk (full fat)","ar":"حليب خالي اللاكتوز (كامل الدسم)","state":"سائل","unit":"g","cal":61,"p":3.3,"c":4.7,"f":3.5},
     {"id":9008,"en":"Lactose-Free Milk (semi-skim)","ar":"حليب خالي اللاكتوز (نصف دسم)","state":"سائل","unit":"g","cal":47,"p":3.4,"c":4.8,"f":1.6},
     {"id":9009,"en":"Lactose-Free Milk (skim)","ar":"حليب خالي اللاكتوز (خالي الدسم)","state":"سائل","unit":"g","cal":35,"p":3.5,"c":5,"f":0.1},
@@ -119,6 +158,8 @@ const DB = {
     {"id":1101,"en":"Egyptian Lentil Soup","ar":"شوربة عدس مصرية","state":"عادي","unit":"g","cal":76,"p":4,"c":11,"f":1.5},
     {"id":1106,"en":"Molokhia with Chicken","ar":"ملوخية بالدجاج","state":"عادي","unit":"g","cal":75,"p":8,"c":4,"f":3},
     {"id":1108,"en":"Mahshi Kousa","ar":"محشي كوسة","state":"عادي","unit":"g","cal":103,"p":5,"c":14,"f":3},
+    {"id":9728,"en":"Minced Molokhia","ar":"ملوخية مفرومة","state":"عادي","unit":"g","cal":68,"p":4,"c":11,"f":0.8},
+    {"id":9123,"en":"Homemade Fresh Tomato Sauce","ar":"صلصة طماطم طازجة منزلية","state":"عادي","unit":"g","cal":47,"p":1.5,"c":7,"f":1.5},
   ],
   "🍎 فواكه": [
     {"id":701,"en":"Banana","ar":"موز","state":"عادي","unit":"g","cal":89,"p":1.1,"c":23,"f":0.3},
@@ -128,13 +169,41 @@ const DB = {
     {"id":705,"en":"Strawberry","ar":"فراولة","state":"عادي","unit":"g","cal":32,"p":0.7,"c":8,"f":0.3},
     {"id":706,"en":"Watermelon","ar":"بطيخ","state":"عادي","unit":"g","cal":30,"p":0.6,"c":8,"f":0.2},
     {"id":707,"en":"Grapes","ar":"عنب","state":"عادي","unit":"g","cal":69,"p":0.7,"c":18,"f":0.2},
-    {"id":708,"en":"Dates","ar":"تمر","state":"عادي","unit":"g","cal":282,"p":1.8,"c":75,"f":0.2},
     {"id":709,"en":"Figs","ar":"تين","state":"عادي","unit":"g","cal":74,"p":0.7,"c":19,"f":0.3},
     {"id":710,"en":"Pomegranate","ar":"رمان","state":"عادي","unit":"g","cal":83,"p":1.7,"c":19,"f":1.2},
     {"id":711,"en":"Lemon","ar":"ليمون","state":"عادي","unit":"g","cal":29,"p":1.1,"c":9,"f":0.3},
     {"id":712,"en":"Pineapple","ar":"أناناس","state":"عادي","unit":"g","cal":50,"p":0.5,"c":13,"f":0.1},
     {"id":713,"en":"Peach","ar":"خوخ","state":"عادي","unit":"g","cal":39,"p":0.9,"c":10,"f":0.3},
     {"id":714,"en":"Pear","ar":"كمثرى","state":"عادي","unit":"g","cal":57,"p":0.4,"c":15,"f":0.1},
+    {"id":9700,"en":"Abu Surra Orange (Navel)","ar":"برتقال أبو سرة","state":"عادي","unit":"g","cal":47,"p":0.9,"c":11.8,"f":0.1},
+    {"id":9701,"en":"Valencia Orange","ar":"برتقال فالنسيا","state":"عادي","unit":"g","cal":48,"p":1,"c":11.7,"f":0.2},
+    {"id":9702,"en":"Mandarin (Yousef Effendi)","ar":"يوسفي","state":"عادي","unit":"g","cal":53,"p":0.8,"c":13.3,"f":0.3},
+    {"id":9703,"en":"Lime (Green Lemon)","ar":"ليمون أخضر","state":"عادي","unit":"g","cal":30,"p":0.7,"c":10.5,"f":0.2},
+    {"id":9704,"en":"Semi-Dry Dates (Balah)","ar":"بلح نصف جاف","state":"عادي","unit":"g","cal":255,"p":2,"c":62,"f":0.2},
+    {"id":9705,"en":"Dried Dates","ar":"تمر جاف","state":"عادي","unit":"g","cal":282,"p":2.5,"c":75,"f":0.4},
+    {"id":9706,"en":"Imported Apple","ar":"تفاح مستورد","state":"عادي","unit":"g","cal":52,"p":0.3,"c":13.8,"f":0.2},
+    {"id":9707,"en":"Baladi Apple","ar":"تفاح بلدي","state":"عادي","unit":"g","cal":50,"p":0.3,"c":13,"f":0.2},
+    {"id":9708,"en":"Mango (Fas)","ar":"مانجو فص","state":"عادي","unit":"g","cal":65,"p":0.8,"c":16.3,"f":0.3},
+    {"id":9709,"en":"Mango (Awais)","ar":"مانجو عويس","state":"عادي","unit":"g","cal":70,"p":0.8,"c":17.5,"f":0.3},
+    {"id":9710,"en":"Mango (Zibda)","ar":"مانجو زبدة","state":"عادي","unit":"g","cal":72,"p":0.8,"c":18,"f":0.3},
+    {"id":9711,"en":"Mango (Owais)","ar":"مانجو أويس","state":"عادي","unit":"g","cal":68,"p":0.8,"c":17,"f":0.3},
+    {"id":9712,"en":"Mango (Keitt)","ar":"مانجو كيت","state":"عادي","unit":"g","cal":60,"p":0.8,"c":15,"f":0.3},
+    {"id":9713,"en":"Mango (Sukkari)","ar":"مانجو سكري","state":"عادي","unit":"g","cal":75,"p":0.8,"c":18.8,"f":0.3},
+    {"id":9714,"en":"Cantaloupe","ar":"كانتالوب","state":"عادي","unit":"g","cal":34,"p":0.8,"c":8.2,"f":0.2},
+    {"id":9715,"en":"Honeydew / Egyptian Melon (Shammam)","ar":"شمام","state":"عادي","unit":"g","cal":36,"p":0.5,"c":9,"f":0.1},
+    {"id":9716,"en":"Red Grapes","ar":"عنب أحمر","state":"عادي","unit":"g","cal":69,"p":0.7,"c":18.1,"f":0.2},
+    {"id":9717,"en":"Black Grapes","ar":"عنب أسود","state":"عادي","unit":"g","cal":70,"p":0.7,"c":18.2,"f":0.2},
+    {"id":9718,"en":"Green Seedless Grapes","ar":"عنب أخضر بدون بذر","state":"عادي","unit":"g","cal":67,"p":0.7,"c":17.2,"f":0.2},
+    {"id":9719,"en":"Plum","ar":"برقوق","state":"عادي","unit":"g","cal":46,"p":0.7,"c":11.4,"f":0.3},
+    {"id":9720,"en":"Apricot","ar":"مشمش","state":"عادي","unit":"g","cal":48,"p":1.4,"c":11.1,"f":0.4},
+    {"id":9721,"en":"Guava","ar":"جوافة","state":"عادي","unit":"g","cal":68,"p":2.6,"c":14.3,"f":1},
+    {"id":9722,"en":"Persimmon (Kaki)","ar":"كاكا","state":"عادي","unit":"g","cal":70,"p":0.6,"c":18.6,"f":0.2},
+    {"id":9723,"en":"Blueberries","ar":"توت أزرق","state":"عادي","unit":"g","cal":57,"p":0.7,"c":14.5,"f":0.3},
+    {"id":9724,"en":"Loquat (Eskidenia)","ar":"اسكدنيا","state":"عادي","unit":"g","cal":47,"p":0.4,"c":12.1,"f":0.2},
+    {"id":9200,"en":"Yellow Dates (Balah)","ar":"بلح أصفر","state":"عادي","unit":"g","cal":105,"p":1,"c":25,"f":0.2},
+    {"id":9201,"en":"Red Dates (Balah)","ar":"بلح أحمر","state":"عادي","unit":"g","cal":127,"p":1.2,"c":30,"f":0.2},
+    {"id":9202,"en":"Brown Dates (Balah)","ar":"بلح أسمر","state":"عادي","unit":"g","cal":175,"p":1.5,"c":42,"f":0.2},
+    {"id":9203,"en":"Fresh Dates (Rutab)","ar":"تمر رطب","state":"عادي","unit":"g","cal":225,"p":1.8,"c":54,"f":0.2},
   ],
   "🧈 دهون ومكسرات": [
     {"id":601,"en":"Olive Oil","ar":"زيت زيتون","state":"عادي","unit":"g","cal":884,"p":0,"c":0,"f":100},
@@ -153,6 +222,12 @@ const DB = {
     {"id":614,"en":"Sunflower Oil","ar":"زيت عباد الشمس","state":"عادي","unit":"g","cal":884,"p":0,"c":0,"f":100},
     {"id":615,"en":"Corn Oil","ar":"زيت الذرة","state":"عادي","unit":"g","cal":884,"p":0,"c":0,"f":100},
     {"id":616,"en":"Avocado Oil","ar":"زيت الأفوكادو","state":"عادي","unit":"g","cal":884,"p":0,"c":0,"f":100},
+    {"id":9725,"en":"Peanut Butter Powder","ar":"مسحوق زبدة الفول السوداني","state":"جاف","unit":"g","cal":475,"p":48,"c":40,"f":13},
+    {"id":9100,"en":"Pecans","ar":"بيكان","state":"عادي","unit":"g","cal":691,"p":9.2,"c":13.9,"f":72},
+    {"id":9101,"en":"Pistachios","ar":"فستق","state":"عادي","unit":"g","cal":560,"p":20.2,"c":27.2,"f":45.3},
+    {"id":9102,"en":"Hazelnuts","ar":"بندق","state":"عادي","unit":"g","cal":628,"p":15,"c":16.7,"f":60.8},
+    {"id":9103,"en":"Sesame Seeds (hulled, dried)","ar":"سمسم مقشر مجفف","state":"عادي","unit":"g","cal":580,"p":17.7,"c":23.5,"f":49.7},
+    {"id":9104,"en":"Sesame Oil","ar":"زيت سمسم","state":"عادي","unit":"g","cal":884,"p":0,"c":0,"f":100},
   ],
 };
 
@@ -220,8 +295,9 @@ const macrosAt = (f, qty) => {
   return { p: Math.round((f.p || 0) * k * 10) / 10, c: Math.round((f.c || 0) * k * 10) / 10, f: Math.round((f.f || 0) * k * 10) / 10 };
 };
 const fmtQty = (f, qty) => `${qty} ${unitAr(f)}`;
-const buildCopyText = (food, qty, items) =>
-  `بدائل ${food.ar} (${fmtQty(food, qty)}):\n` + items.map((a) => `- ${a.ar}: ${fmtQty(a, a.needed)}`).join("\n");
+const nameOf = (f, withEn) => (withEn ? `${f.ar} (${f.en})` : f.ar);
+const buildCopyText = (food, qty, items, withEn) =>
+  `بدائل ${nameOf(food, withEn)} (${fmtQty(food, qty)}):\n` + items.map((a) => `- ${nameOf(a, withEn)}: ${fmtQty(a, a.needed)}`).join("\n");
 
 // ========== المكونات الفرعية ==========
 function CopyButton({ getText, label = "نسخ", small = false, color }) {
@@ -320,7 +396,7 @@ function FoodSelector({ label, stepNum, catFoods, selected, selectedList, multi,
   );
 }
 
-function AlternativeRow({ alt, checked, onToggle }) {
+function AlternativeRow({ alt, checked, onToggle, withEn }) {
   const pct = Math.min(100, Math.round((alt.needed / (isPiece(alt) ? 10 : 500)) * 100));
   const m = macrosAt(alt, alt.needed);
   return (
@@ -335,7 +411,7 @@ function AlternativeRow({ alt, checked, onToggle }) {
             <span style={{ color: C.teal, fontWeight: 800, fontSize: "1.2rem" }}>{alt.needed}</span>
             <span style={{ color: C.subtext, fontSize: "0.75rem", marginRight: 3 }}>{unitEn(alt)}</span>
           </div>
-          <CopyButton small getText={() => `${alt.ar}: ${fmtQty(alt, alt.needed)}`} label="نسخ" />
+          <CopyButton small getText={() => `${nameOf(alt, withEn)}: ${fmtQty(alt, alt.needed)}`} label="نسخ" />
         </div>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10, flexDirection: "row-reverse" }}>
         <button onClick={onToggle} aria-label="تحديد البديل" style={{
@@ -346,6 +422,7 @@ function AlternativeRow({ alt, checked, onToggle }) {
         }}>{checked ? "✓" : ""}</button>
         <div style={{ textAlign: "right" }}>
           <div style={{ color: C.text, fontSize: "0.9rem", fontWeight: 600 }}>{alt.ar}</div>
+          <div style={{ color: C.muted, fontSize: "0.68rem" }} dir="ltr">{alt.en}</div>
           <span style={{
             background: `${stateTag(alt.state)}18`, color: stateTag(alt.state),
             padding: "1px 7px", borderRadius: 5, fontSize: "0.65rem", fontWeight: 700,
@@ -374,6 +451,7 @@ function MealCard({ index, onRemove, showRemove }) {
   const [targets, setTargets] = useState([]); // بدائل محددة (متعددة)
   const [searchB, setSearchB] = useState("");
   const [round5, setRound5] = useState(false);
+  const [withEn, setWithEn] = useState(true); // إضافة الاسم الإنجليزي عند النسخ
   const [picked, setPicked] = useState([]); // بدائل محددة بالـ checkbox للنسخ
   const gramsRef = useRef(null);
   const catFoods = DB[cat];
@@ -408,10 +486,16 @@ function MealCard({ index, onRemove, showRemove }) {
   }, [totalCals, targets, round5]);
 
   const RoundToggle = (
-    <label style={{ display: "flex", alignItems: "center", gap: 8, color: C.subtext, fontSize: "0.78rem", cursor: "pointer", marginBottom: 12 }}>
-      <input type="checkbox" checked={round5} onChange={(e) => setRound5(e.target.checked)} style={{ accentColor: C.neon }} />
-      تقريب الجرامات لأقرب 5 جم
-    </label>
+    <div style={{ marginBottom: 12, display: "flex", flexDirection: "column", gap: 8 }}>
+      <label style={{ display: "flex", alignItems: "center", gap: 8, color: C.subtext, fontSize: "0.78rem", cursor: "pointer" }}>
+        <input type="checkbox" checked={round5} onChange={(e) => setRound5(e.target.checked)} style={{ accentColor: C.neon }} />
+        تقريب الجرامات لأقرب 5 جم
+      </label>
+      <label style={{ display: "flex", alignItems: "center", gap: 8, color: C.subtext, fontSize: "0.78rem", cursor: "pointer" }}>
+        <input type="checkbox" checked={withEn} onChange={(e) => setWithEn(e.target.checked)} style={{ accentColor: C.neon }} />
+        إضافة الاسم بالإنجليزي عند النسخ
+      </label>
+    </div>
   );
 
   return (
@@ -501,7 +585,7 @@ function MealCard({ index, onRemove, showRemove }) {
                 <div style={{ fontSize: "0.75rem", color: C.teal, fontWeight: 800, letterSpacing: "0.1em" }}>
                   البدائل المقترحة بنفس السعرات
                 </div>
-                <CopyButton label="📋 نسخ كل البدائل" getText={() => buildCopyText(food, grams, alternatives)} />
+                <CopyButton label="📋 نسخ كل البدائل" getText={() => buildCopyText(food, grams, alternatives, withEn)} />
               </div>
               <div style={{
                 display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8,
@@ -519,14 +603,14 @@ function MealCard({ index, onRemove, showRemove }) {
                 </div>
                 {pickedAlts.length > 0 ? (
                   <CopyButton label={`📋 نسخ المحدد (${pickedAlts.length})`} color={C.neon}
-                    getText={() => buildCopyText(food, grams, pickedAlts)} />
+                    getText={() => buildCopyText(food, grams, pickedAlts, withEn)} />
                 ) : (
                   <span style={{ color: C.muted, fontSize: "0.7rem" }}>حدد أكتر من بديل لنسخهم مرة واحدة</span>
                 )}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {alternatives.map((alt) => (
-                  <AlternativeRow key={alt.en} alt={alt} checked={picked.includes(alt.en)} onToggle={() => togglePicked(alt.en)} />
+                  <AlternativeRow key={alt.en} alt={alt} checked={picked.includes(alt.en)} onToggle={() => togglePicked(alt.en)} withEn={withEn} />
                 ))}
               </div>
             </>
@@ -589,14 +673,17 @@ function MealCard({ index, onRemove, showRemove }) {
                   }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <span style={{ color: C.teal, fontWeight: 900, fontSize: "1.4rem" }}>{r.needed} {unitEn(r)}</span>
-                      <CopyButton small getText={() => `${r.ar}: ${fmtQty(r, r.needed)}`} />
+                      <CopyButton small getText={() => `${nameOf(r, withEn)}: ${fmtQty(r, r.needed)}`} />
                     </div>
-                    <span style={{ color: C.text, fontSize: "0.88rem", fontWeight: 600, textAlign: "right" }}>{r.ar}</span>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ color: C.text, fontSize: "0.88rem", fontWeight: 600 }}>{r.ar}</div>
+                      <div style={{ color: C.muted, fontSize: "0.68rem" }} dir="ltr">{r.en}</div>
+                    </div>
                   </div>
                 ))}
               </div>
               {RoundToggle}
-              <CopyButton label="📋 نسخ كل البدائل المختارة" getText={() => buildCopyText(food, grams, specificResults)} />
+              <CopyButton label="📋 نسخ كل البدائل المختارة" getText={() => buildCopyText(food, grams, specificResults, withEn)} />
             </div>
           )}
         </>
